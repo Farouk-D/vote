@@ -29,7 +29,7 @@ const Navbar = () => {
     setAnchorEl(null);
   };
   const handleLogOut = () => {
-    axios.get("http://localhost:3001/auth/logout").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
       if (res.data.valid) {
         setAuth(false)
         navigate("/")

@@ -25,7 +25,7 @@ const AdminComponent = () => {
 
   
     const handleDeleteVote = () => {
-      axios.delete("http://localhost:3001/vote/deleteVote").then(res => {
+      axios.delete(`${process.env.REACT_APP_API_URL}/vote/deleteVote`).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
@@ -33,17 +33,17 @@ const AdminComponent = () => {
       let currentDate = new Date();
       let dateEnd = new Date(currentDate.getTime() + 5 * 60000); 
       let formattedDateEnd = dateEnd.toISOString();
-      axios.post("http://localhost:3001/vote/createVote",{dateEnd:formattedDateEnd,dateDisplay:"2024-05-01T12:00:00"}).then(res => {
+      axios.post(`${process.env.REACT_APP_API_URL}/vote/createVote`,{dateEnd:formattedDateEnd,dateDisplay:"2024-05-01T12:00:00"}).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
     const handleStartDecrypt = () => {
-      axios.get("http://localhost:3001/admin/startDecrypt").then(res => {
+      axios.get(`${process.env.REACT_APP_API_URL}/admin/startDecrypt`).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
     const handleVerifyAllDecrypt = () => {
-      axios.get("http://localhost:3001/admin/verifyAllDecrypt").then(res => {
+      axios.get(`${process.env.REACT_APP_API_URL}/admin/verifyAllDecrypt`).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
@@ -51,13 +51,13 @@ const AdminComponent = () => {
       console.log(data)
       const indice = data.ind
       const share = data.cle
-      axios.post("http://localhost:3001/admin/decrypt",{adminMail:localStorage.getItem("email"),share,indice}).then(res => {
+      axios.post(`${process.env.REACT_APP_API_URL}/admin/decrypt`,{adminMail:uid.userMail,share,indice}).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
       
     }
     const handleLogOut = () => {
-      axios.get("http://localhost:3001/auth/logout").then(res => {
+      axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
         if (res.data.valid) {navigate("/")}
       }).catch(err => console.log(err))
     }

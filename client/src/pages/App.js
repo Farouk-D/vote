@@ -15,7 +15,7 @@ function App() {
       async function checkAuth() {
         await axios({
           method: "get",
-          url: "http://localhost:3001/jwtid",
+          url: `${process.env.REACT_APP_API_URL}/jwtid`,
           withCredentials: true,
         }).then(async (res) => {
           if (res.status !== 200) {

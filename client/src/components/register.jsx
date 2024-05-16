@@ -18,7 +18,7 @@ const Registration = () => {
     const onSubmit = async (data) => {
         if (data.password !== data.passwordC) {return alert("Mauvaise entrée de mot de passe")}
         try {
-            const response = await axios.post("http://localhost:3001/auth/getUser",{userMail:data.email});
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/getUser`,{userMail:data.email});
             if (response.status == 200) {
                 const code = Math.floor(Math.random() * 1000000);
                 await sendAuthMail(data.email,code);

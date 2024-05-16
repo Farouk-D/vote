@@ -11,12 +11,12 @@ function Vote() {
 
   const crypt = async (userVote) => {
     try {
-      const response = await axios.get("http://localhost:3001/vote/getClePub")
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}vote/getClePub`)
       const publicKey = response.data.pubCle  
       if (response.data.valid) {
         let n = bigInt(publicKey[0])
         let g = bigInt(publicKey[1])
-        const result = await axios.post("http://localhost:3001/vote/calculR", {n})
+        const result = await axios.post(`${process.env.REACT_APP_API_URL}/vote/calculR`, {n})
         let cryptVote = g.modPow(bigInt(userVote), n.multiply(n)).multiply(bigInt(result.data.r).modPow(n, n.multiply(n))).mod(n.multiply(n)).toString();
         return cryptVote
       } else {
@@ -36,7 +36,7 @@ function Vote() {
   const navigate = useNavigate()
   useEffect(() => {
     
-        axios.get("http://localhost:3001/vote/getVoteAuth").then( res => {
+        axios.get(`${process.env.REACT_APP_API_URL}/vote/getVoteAuth`).then( res => {
           if (res.data.valid) {
             setIsAllowed(true)
           } 
@@ -45,7 +45,7 @@ function Vote() {
   }, []);
 
   const handleLogOut = () => {
-    axios.get("http://localhost:3001/auth/logout").then(res => {
+    axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
       console.log(res.data.valid)
       if (res.data.valid) {navigate("/")}
     }).catch(err => console.log(err))
@@ -55,12 +55,12 @@ function Vote() {
     const userVote = data.vote;
   
     try {
-      const testVoteResponse = await axios.post("http://localhost:3001/vote/testVote", { userId })
+      const testVoteResponse = await axios.post(`${process.env.REACT_APP_API_URL}/vote/testVote`, { userId })
       alert(testVoteResponse.data.message)
   
       if (testVoteResponse.data.valid) {
         const resultat = await crypt(userVote)
-        const postVoteResponse = await axios.post("http://localhost:3001/vote/postVote", {
+        const postVoteResponse = await axios.post(`${process.env.REACT_APP_API_URL}/vote/postVote`, {
           userId,
           voteTime: new Date().getTime(),
           resultat

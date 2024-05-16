@@ -27,7 +27,7 @@ const Verification = () => {
         try {
 
             if (data.code == code ) {
-                const response = await axios.post("http://localhost:3001/auth/register",{userMail,password,userRole});
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`,{userMail,password,userRole});
                 if (response.status === 201) {
                     await sendAuthMail(userMail,response.data.ID)
                     alert("Inscription reussi, Votre ID de vote a été envoyé par mail")

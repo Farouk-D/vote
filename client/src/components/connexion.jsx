@@ -22,7 +22,7 @@ const Connexion = () => {
 
        
         try {
-            const response = await axios.post("http://localhost:3001/auth/login",{userMail:data.email,password:data.password});
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`,{userMail:data.email,password:data.password});
             if (response.status === 200) {
                 Cookies.set("token", response.data.token, { expires: 7 });
                 alert("Connexion reussi")

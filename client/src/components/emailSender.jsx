@@ -2,9 +2,9 @@ import React from 'react';
 import emailjs from '@emailjs/browser';
 
 export const sendAuthMail = (userMail,userId) => {
-    const serviceId = "service_xuqr26r"
-    const templateId = "template_kteg1hf"
-    const publicKey = "NkwfG2aeiZPXgwkoW"
+    const serviceId = process.env.REACT_APP_SERVICEID
+    const templateId = process.env.REACT_APP_TEMPLATEID
+    const publicKey = process.env.REACT_APP_PUBLICKEY
     
     const templateParams = {
         to_email:userMail,
