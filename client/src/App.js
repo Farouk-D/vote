@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import AdminPage from './pages/AdminPage';
 import ConfirmRegister from './pages/ConfirmRegister';
 import NavigBar from './components/NavigBar';
+import Accueil from './pages/Accueil';
 
 function App() {
     const [uid, setUid] = useState(null)
@@ -41,7 +42,7 @@ function App() {
                 <Route path="/verif" element={ <ConfirmRegister />} />
                 <Route path="/admin" element={uid ? <AdminPage /> : <Navigate to="/" />} />
                 <Route path="*" element={<h2 className='dark:text-[#0f0f0f] '>La page n'existe pas</h2>} />
-                <Route path="/"/>
+                <Route path="/" element={ <Accueil />} />
               </Routes>
             </main>
           </div>
