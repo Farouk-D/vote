@@ -12,13 +12,6 @@ import { MdLogout } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 
 
-
-
-
-
-
-
-
 const AdminComponent = () => {
     const uid = useContext(UidContext);
     const navigate = useNavigate()
@@ -89,6 +82,7 @@ const AdminComponent = () => {
       }).catch(err => console.log(err))
       
     }
+    // Log out
     const handleLogOut = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
         if (res.data.valid) {

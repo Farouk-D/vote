@@ -65,6 +65,7 @@ const Navbar = () => {
       if (res.data.valid) {
         setAuth(false)
         navigate("/")
+        window.location.reload()
       }
     }).catch(err => console.log(err))
   }
