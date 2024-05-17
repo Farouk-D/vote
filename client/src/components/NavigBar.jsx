@@ -1,11 +1,12 @@
 import React, { useState,useContext,useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from "react-icons/fa";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import axios from 'axios';
 import { UidContext } from "../AppContext";
 
 
@@ -38,7 +39,6 @@ const Navbar = () => {
     }).catch(err => console.log(err))
   }
 
-
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
@@ -47,16 +47,15 @@ const Navbar = () => {
   // Array containing navigation items
   const navItems = [
     { id: 1, text: 'Home' },
-    { id: 2, text: 'Company' },
-    { id: 3, text: 'Resources' },
-    { id: 4, text: 'About' },
-    { id: 5, text: 'Contact' },
+    { id: 2, text: 'Contact' },
   ];
 
   return (
-    <div className='bg-black flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white'>
+    <div className='bg-black flex justify-between items-center h-24 w-full px-4 text-white'>
       {/* Logo */}
-      <h1 className='w-full text-3xl font-bold text-[#00df9a]'>REACT.</h1>
+      <Link to="/" className="flex items-center ml-5">
+        <img src={`${process.env.PUBLIC_URL}/VoteLogo.jpg`} alt="Logo" className="h-20 mr-5 rounded-full" />
+      </Link>
 
       {/* Desktop Navigation */}
       <ul className='hidden md:flex'>
