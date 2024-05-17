@@ -20,11 +20,11 @@ module.exports.getClePub = async(req,res) => {
 }
 
 module.exports.createVote = async (req,res) => {
-    const {dateEnd,dateDisplay} = req.body;
+    const {dateEnd} = req.body;
     const votes = await VoteModel.findOne({});
     if (!votes) {
         const key = createKeys()
-        const newVote = new VoteModel({clePub:key[0],prime:key[1],dateEnd,dateDisplay})
+        const newVote = new VoteModel({clePub:key[0],prime:key[1],dateEnd})
         await newVote.save()
         return res.json({message:"Vote crée"})
     } else {
@@ -48,9 +48,6 @@ module.exports.deleteVote = async (req,res) => {
         return res.json({message: "Une erreur s'est produite lors de la suppression du vote" });
     }
 
-}
-module.exports.getVoteAuth = (req,res) => {
-    return res.status(200).json({valid: true,message:"Vous etes autorisé ! "})
 }
 
 module.exports.calculR = (req,res) => {

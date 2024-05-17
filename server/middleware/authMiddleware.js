@@ -14,8 +14,7 @@ module.exports.verifyUser = (req,res,next) => {
                 return res.json({valid: false,message:"Vous n'etes pas connecté ! (pas de token)"})} // pas de token 
             else {
                     let user = await UserModel.findById(decoded.id).select('-password');
-                    //req.userRole = decoded.userRole
-                    console.log("user : " +user)
+                    req.userRole = decoded.userRole
                     res.locals.user =user;
                     next()
             }

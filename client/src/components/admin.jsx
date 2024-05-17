@@ -6,8 +6,8 @@ import { UidContext } from "../AppContext";
 
 const AdminComponent = () => {
     const uid = useContext(UidContext);
-    const [isAllowed,setIsAllowed] = useState(false)
     const navigate = useNavigate()
+    const [isAllowed,setIsAllowed] = useState(false)
     
 
     const {
@@ -17,13 +17,12 @@ const AdminComponent = () => {
   } = useForm()
 
     axios.defaults.withCredentials = true;
-  
+
     useEffect(() => {
-      console.log(uid)
-      if (uid && uid.userRole === "admin") {setIsAllowed(true)}
+      if (uid && uid.userRole !== "admin") {navigate("/")}
+      else {setIsAllowed(true)}
     }, []);
 
-  
     const handleDeleteVote = () => {
       axios.delete(`${process.env.REACT_APP_API_URL}/vote/deleteVote`).then(res => {
         alert(res.data.message)
@@ -33,7 +32,7 @@ const AdminComponent = () => {
       let currentDate = new Date();
       let dateEnd = new Date(currentDate.getTime() + 5 * 60000); 
       let formattedDateEnd = dateEnd.toISOString();
-      axios.post(`${process.env.REACT_APP_API_URL}/vote/createVote`,{dateEnd:formattedDateEnd,dateDisplay:"2024-05-01T12:00:00"}).then(res => {
+      axios.post(`${process.env.REACT_APP_API_URL}/vote/createVote`,{dateEnd:formattedDateEnd}).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
@@ -58,12 +57,15 @@ const AdminComponent = () => {
     }
     const handleLogOut = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
-        if (res.data.valid) {navigate("/")}
+        if (res.data.valid) {
+          navigate("/")
+          window.location.reload();
+        }
       }).catch(err => console.log(err))
     }
   
 
-return  isAllowed ?  (
+return  isAllowed && (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <header className="bg-blue-500 p-4">
         <div className="flex justify-between items-center">
@@ -95,7 +97,7 @@ return  isAllowed ?  (
       <div>
       </div>
     </div>
-  ) : "Vous n'etes pas autorisé a etre ici "
+  ) 
 
 }
 
