@@ -3,9 +3,8 @@ const decryptController=require('../controllers/dechiffrementControllers');
 const { verifyUser, admin } = require("../middleware/authMiddleware");
 
 const router = express.Router()
-router.use([verifyUser, admin])
-router.get("/startDecrypt",decryptController.startDecrypt)
-router.get("/verifyAllDecrypt",decryptController.verifyAllDecrypt)
-router.post("/decrypt",decryptController.decrypt)
+router.get("/startDecrypt",admin,decryptController.startDecrypt)
+router.get("/verifyAllDecrypt",admin,decryptController.verifyAllDecrypt)
+router.post("/decrypt",[verifyUser,admin],decryptController.decrypt)
 
 module.exports=router;

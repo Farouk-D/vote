@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useContext } from "react"
 import {useForm} from "react-hook-form"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import bigInt from 'big-integer';
+import { UidContext } from "../AppContext";
 
 function Vote() {
   
   const [isAllowed,setIsAllowed] = useState(false)
+  const uid = useContext(UidContext);
   axios.defaults.withCredentials = true;
 
   const crypt = async (userVote) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}vote/getClePub`)
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/vote/getClePub`)
       const publicKey = response.data.pubCle  
       if (response.data.valid) {
         let n = bigInt(publicKey[0])
@@ -35,19 +37,16 @@ function Vote() {
 
   const navigate = useNavigate()
   useEffect(() => {
-    
-        axios.get(`${process.env.REACT_APP_API_URL}/vote/getVoteAuth`).then( res => {
-          if (res.data.valid) {
-            setIsAllowed(true)
-          } 
-      }).catch(err => console.log(err))
-
+    if (uid) {setIsAllowed(true)}
   }, []);
 
   const handleLogOut = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
       console.log(res.data.valid)
-      if (res.data.valid) {navigate("/")}
+      if (res.data.valid) {
+        navigate("/")
+        window.location.reload();
+      }
     }).catch(err => console.log(err))
   }
   const onSubmit = async (data) => {
