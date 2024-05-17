@@ -65,7 +65,6 @@ const Navbar = () => {
       if (res.data.valid) {
         setAuth(false)
         navigate("/")
-        
       }
     }).catch(err => console.log(err))
   }
@@ -92,7 +91,7 @@ const Navbar = () => {
       <ul className='flex'>
           <li className='p-4' >
             <Link to="/" className='p-4 hover:bg-yellow-600 rounded-xl mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Accueil</Link>
-            <Link to="/" className='p-4 hover:bg-yellow-600 rounded-xl mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Aide</Link>
+            <Link to="/Aide" className='p-4 hover:bg-yellow-600 rounded-xl mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Aide</Link>
           </li>
         {auth ?
         <div
