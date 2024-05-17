@@ -31,6 +31,7 @@ const Navbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  // Admin pannel
   const connectToAdmin = async () => {
     if (location.pathname !== "/admin"){
       const { value: password } = await Swal.fire({
