@@ -11,16 +11,29 @@ function Vote() {
   const uid = useContext(UidContext);
   axios.defaults.withCredentials = true;
 
+  function Gen_Coprime(n){
+    // Coprime generation function. Generates a random coprime number of n.
+    let ret;
+    while (true) {
+      ret = bigInt.randBetween(1, n.minus(1));
+      if (bigInt.gcd(ret, n) == 1) { 
+          return ret
+      }
+    }
+  }
+
   const crypt = async (userVote) => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/vote/getClePub`)
-      const publicKey = response.data.pubCle  
+      const publicKey = response.data.pubCle
       if (response.data.valid) {
         let n = bigInt(publicKey[0])
         let g = bigInt(publicKey[1])
-        const result = await axios.post(`${process.env.REACT_APP_API_URL}/vote/calculR`, {n})
-        let cryptVote = g.modPow(bigInt(userVote), n.multiply(n)).multiply(bigInt(result.data.r).modPow(n, n.multiply(n))).mod(n.multiply(n)).toString();
-        return cryptVote
+        let x = Gen_Coprime(n)
+        let temp1 = g.modPow(bigInt(userVote), n.multiply(n))
+        let temp2 = x.modPow(n, n.multiply(n))
+        let cryptVote = temp1.multiply(temp2).mod(n.multiply(n))
+        return cryptVote.toString()
       } else {
         throw new Error("Invalid response");
       }

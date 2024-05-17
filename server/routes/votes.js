@@ -12,7 +12,6 @@ router.use(verifyUser)
 router.get("/getClePub",voteControllers.getClePub)
 router.post("/createVote",voteControllers.createVote)
 router.post("/testVote",voteControllers.testVote)
-router.post("/calculR",voteControllers.calculR)
 router.post("/postVote",voteControllers.postVote)
 router.delete("/deleteVote",admin,voteControllers.deleteVote)
 

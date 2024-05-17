@@ -18,6 +18,11 @@ module.exports.getUser = async(req,res) => {
     }
 }
 
+module.exports.getUsers = async (req, res) => {
+    const users = await UserModel.find({ userRole: { $ne: 'admin' } }).select('-password');
+    res.status(200).json(users);
+};
+
 module.exports.getAdmin = async(req,res) => { 
     return res.json({valid: true,message:"Vous etes autorisé ! "})
 }

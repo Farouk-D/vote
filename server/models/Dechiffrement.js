@@ -16,7 +16,7 @@ const DechiffrementSchema = new mongoose.Schema ({
         type: [String],
         default:null,
     },
-    share: {
+    decryptedShare: {
         type: [String],
         default:null,
     }
