@@ -15,10 +15,10 @@ export default function Accueil() {
       </div>
       <div className=" flex flex-col items-center">
         <h1 className="text-white text-center text-5xl md:text-6xl font-bold font-serif mb-2 mt-8 md:mt-6 ml-6 sm:ml-16">BIENVENUE !</h1>
-        <p className="hidden lg:flex justify-center text-white text-center text-md md:text-xl font-semibold bg-gray-950 w-4/5 md:w-1/2 mt-6 rounded-xl border-2 py-1 px-2">
+        <p className="hidden lg:flex justify-center text-white text-center text-md md:text-xl font-semibold bg-gray-950 w-4/5 md:w-1/2 mt-2 rounded-xl border-2 py-1 px-2">
           Votez dès maintenant pour votre favori au Ballon d'Or 2024 <br /> et pour l'Algérien de la décennie !
         </p>
-        <p className="flex lg:hidden text-white text-center text-md md:text-xl font-semibold bg-gray-950 w-4/5 md:w-1/2 mt-6 rounded-xl border-2 py-1 px-2">
+        <p className="flex lg:hidden text-white text-center text-md md:text-xl font-semibold bg-gray-950 w-4/5 md:w-1/2 mt-2 rounded-xl border-2 py-1 px-2">
           Votez dès maintenant pour votre favori au Ballon d'Or 2024 et pour l'Algérien de la décennie !
         </p>
       </div>

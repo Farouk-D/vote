@@ -21,7 +21,7 @@ const Connexion = () => {
 
   const backgrounds = [
     '/ViniciusBellingham.png',
-    'https://www.pixel4k.com/wp-content/uploads/2020/12/triangle-solid-black-gold-4k_1608574481.jpg'
+    'https://www.hdwallpapers.in/download/plain_gold_textile_hd_gold-HD.jpg'
   ];
 
   const [bgIndex, setBgIndex] = useState(0);
