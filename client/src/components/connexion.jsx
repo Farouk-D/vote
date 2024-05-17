@@ -27,6 +27,7 @@ const Connexion = () => {
     'https://wallpaper.forfun.com/fetch/7d/7ddc54e8ffbb9afc4674c2707f7c15a4.jpeg',
     'https://www.fanzword.com/wp-content/uploads/2024/05/GettyImages-1610621328-fotor-20231008145311-scaled.webp',
     '/ViniciusBellingham.png',
+    '/HediVSFarouk.png',
     'https://i.pinimg.com/originals/e4/6c/af/e46cafd7bf8a1bba700920f57c8f7acd.jpg'
   ];
 
