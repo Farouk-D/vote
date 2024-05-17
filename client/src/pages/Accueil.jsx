@@ -1,16 +1,34 @@
-import React from "react";
+import { useNavigate } from "react-router-dom"; // This will be used to navigate to the login page
 
 export default function Accueil() {
+  const navigate = useNavigate(); // Hook to navigate
+
+  const handleLoginRedirect = () => {
+    navigate("/login"); // Redirect function
+  };
+
 
   return(
-    <div className="flex flex-col min-h-screen bg-black">
-      <div className="bg-gradient-to-b from-yellow-600 to-black border-t-2 border-yellow-600">         
+    <div className="flex flex-col min-h-screen" style={{ backgroundImage: 'url("https://www.pixel4k.com/wp-content/uploads/2020/12/triangle-solid-black-gold-4k_1608574481.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="bg-gradient-to-b from-yellow-700 to-transparent border-t-2 border-yellow-600">         
         <h1 className="py-5"> </h1>
       </div>
-      <div>
-        <h1 className="text-white text-2xl text-center sm:text-3xl font-bold font-serif mb-0 mt-4 ml-6 sm:ml-16">BIENVENUE !</h1>
+      <div className=" flex flex-col items-center">
+        <h1 className="text-white text-center text-5xl md:text-6xl font-bold font-serif mb-2 mt-8 md:mt-6 ml-6 sm:ml-16">BIENVENUE !</h1>
+        <p className="hidden lg:flex justify-center text-white text-center text-md md:text-xl font-semibold bg-gray-950 w-4/5 md:w-1/2 mt-6 rounded-xl border-2 py-1 px-2">
+          Votez dès maintenant pour votre favori au Ballon d'Or 2024 <br /> et pour l'Algérien de la décennie !
+        </p>
+        <p className="flex lg:hidden text-white text-center text-md md:text-xl font-semibold bg-gray-950 w-4/5 md:w-1/2 mt-6 rounded-xl border-2 py-1 px-2">
+          Votez dès maintenant pour votre favori au Ballon d'Or 2024 et pour l'Algérien de la décennie !
+        </p>
+      </div>
+      <div className=" flex flex-col items-center">
+        <button onClick={handleLoginRedirect} 
+        className="mt-20 py-8 px-10 font-serif bg-gradient-to-br from-yellow-700 to-orange-300 hover:brightness-90 hover:scale-105 w-4/5 md:w-2/5 text-white text-5xl lg:text-6xl font-bold rounded-3xl transition duration-200 ease-in-out">
+          VOTEZ ! 
+          <br /> <p className="text-2xl">Vote / صوتوا / Votar</p>
+        </button>
       </div>
     </div>
   );
-
 }
