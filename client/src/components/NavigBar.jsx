@@ -1,12 +1,13 @@
 import React, { useState,useContext,useEffect } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from "react-icons/fa";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
 import { UidContext } from "../AppContext";
+import Swal from 'sweetalert2'
 
 
 const Navbar = () => {
@@ -14,6 +15,7 @@ const Navbar = () => {
   const [nav, setNav] = useState(false);
   const uid = useContext(UidContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [auth,setAuth] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -28,6 +30,30 @@ const Navbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const connectToAdmin = async () => {
+    if (location.pathname !== "/admin"){
+      const { value: password } = await Swal.fire({
+      title: "Entrez votre Mot de passe admin",
+      input: "password",
+      inputPlaceholder: "Enter your password",
+      inputAttributes: {
+        autocapitalize: "off",
+        autocorrect: "off"
+      }
+    });
+    if (password) {
+      if (password === process.env.REACT_APP_PASSWORD_ADMIN){
+        navigate("/admin")
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Mauvais mot de passe ! ",
+          text: "Veuillez Reessayer",
+        });
+      }
+    }
+  }
+  }
   const handleLogOut = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
       if (res.data.valid) {
@@ -90,7 +116,7 @@ const Navbar = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={() => navigate("/admin")}>Admin </MenuItem>
+        {uid && uid.userRole === "admin" && <MenuItem onClick={connectToAdmin}>Admin </MenuItem>}
         <MenuItem onClick={() => navigate("/vote")}>Voter</MenuItem>
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </Menu> 
