@@ -1,11 +1,12 @@
 import React, { useState,useContext,useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from "react-icons/fa";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import axios from 'axios';
 import { UidContext } from "../AppContext";
 import Swal from 'sweetalert2'
 
@@ -64,7 +65,6 @@ const Navbar = () => {
     }).catch(err => console.log(err))
   }
 
-
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
@@ -72,31 +72,26 @@ const Navbar = () => {
 
   // Array containing navigation items
   const navItems = [
-    { id: 1, text: 'Home' },
-    { id: 2, text: 'Company' },
-    { id: 3, text: 'Resources' },
-    { id: 4, text: 'About' },
-    { id: 5, text: 'Contact' },
+    { id: 1, text: 'Accueil' },
+    { id: 2, text: 'Comment ça marche ?' },
   ];
 
   return (
-    <div className='bg-black flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white'>
+    <div className='bg-zinc-950 flex justify-between items-center h-24 w-full px-4 text-white'>
       {/* Logo */}
-      <h1 className='w-full text-3xl font-bold text-[#00df9a]'>REACT.</h1>
+      <Link to="/" className="flex items-center ml-5">
+        <img src={`${process.env.PUBLIC_URL}/VoteLogo.jpg`} alt="Logo" className="h-20 mr-5 rounded-full" />
+      </Link>
 
       {/* Desktop Navigation */}
-      <ul className='hidden md:flex'>
-        {navItems.map(item => (
-          <li
-            key={item.id}
-            className='p-4 hover:bg-[#00df9a] rounded-xl m-2 cursor-pointer duration-300 hover:text-black'
-          >
-            {item.text}
+      <ul className='flex'>
+          <li className='p-4' >
+            <Link to="/" className='p-4 hover:bg-yellow-600 rounded-xl mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Accueil</Link>
+            <Link to="/" className='p-4 hover:bg-yellow-600 rounded-xl mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Aide</Link>
           </li>
-        ))}
         {auth ?
         <div
-          className='p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600'
+          className='p-4 border-b rounded-xl hover:bg-yellow-600 duration-300 hover:text-black cursor-pointer border-gray-600'
           >
        <Button
         id="basic-button"
@@ -121,35 +116,7 @@ const Navbar = () => {
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </Menu> 
       
-        </div> : <Button onClick={() => navigate("/login")}>Connexion</Button> }
-      </ul>
-
-      {/* Mobile Navigation Icon */}
-      <div onClick={handleNav} className='block md:hidden'>
-        {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
-      </div>
-
-      {/* Mobile Navigation Menu */}
-      <ul
-        className={
-          nav
-            ? 'fixed md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500'
-            : 'ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]'
-        }
-      >
-        {/* Mobile Logo */}
-        <h1 className='w-full text-3xl font-bold text-[#00df9a] m-4'>REACT.</h1>
-
-        {/* Mobile Navigation Items */}
-        {navItems.map(item => (
-          <li
-            key={item.id}
-            className='p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600'
-          >
-            {item.text}
-          </li>
-        ))}
-        
+        </div> : <Link to="/login" className='p-4 hover:bg-yellow-600 rounded-xl mr-2 cursor-pointer duration-300 hover:text-black font-semibold'>Connexion</Link> }
       </ul>
     </div>
   );
