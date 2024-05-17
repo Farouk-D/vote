@@ -40,15 +40,7 @@ function Vote() {
     if (uid) {setIsAllowed(true)}
   }, []);
 
-  const handleLogOut = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
-      console.log(res.data.valid)
-      if (res.data.valid) {
-        navigate("/")
-        window.location.reload();
-      }
-    }).catch(err => console.log(err))
-  }
+
   const onSubmit = async (data) => {
     const userId = data.id;
     const userVote = data.vote;
@@ -95,7 +87,6 @@ function Vote() {
 
         
       </form>
-      <button  className="bg-blue-500 text-white py-2 px-4 rounded-md" onClick={handleLogOut}>Deconnexion</button>
     </div>
   ) : "Vous n'etes pas autorisé a etre ici, Veuillez vous connecter ou vous inscrire "
   }

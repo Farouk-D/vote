@@ -5,6 +5,7 @@ import { SpanAlerte } from './SpanAlerte';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Swal from 'sweetalert2'
 
 
 const Connexion = () => {
@@ -33,19 +34,35 @@ const Connexion = () => {
     return () => clearInterval(intervalId); // Nettoyage de l'intervalle
   }, []);
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`,{userMail:data.email,password:data.password});
-      if (response.status === 200) {
-        Cookies.set("token", response.data.token, { expires: 7 });
-        alert("Connexion reussi")
-        navigate("/")
-        window.location.reload();
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`,{userMail:data.email,password:data.password});
+            if (response.status === 200) {
+                Cookies.set("token", response.data.token, { expires: 7 });
+                navigate("/")
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.onmouseenter = Swal.stopTimer;
+                      toast.onmouseleave = Swal.resumeTimer;
+                    }
+                  });
+                  await Toast.fire({
+                    icon: "success",
+                    title: "Connexion réussi !!",
+                    color : "#fff",
+                    background:"#33322e"
+                  });
+                  window.location.reload();
+                }
+            else {alert("Email ou Mot de passe Incorrect")}
+        } catch(err) {
+            console.log(err)
         }
-      else {alert("Email ou Mot de passe Incorrect")}
-    } catch(err) {
-      console.log(err)
-    }
   }
 
   return (
