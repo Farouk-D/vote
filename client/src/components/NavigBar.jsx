@@ -37,7 +37,9 @@ const Navbar = () => {
       const { value: password } = await Swal.fire({
       title: "Entrez votre Mot de passe admin",
       input: "password",
-      inputPlaceholder: "Enter your password",
+      color : "#fff",
+      inputPlaceholder: "****************",
+      background:"#33322e",
       inputAttributes: {
         autocapitalize: "off",
         autocorrect: "off"
@@ -49,6 +51,8 @@ const Navbar = () => {
       } else {
         Swal.fire({
           icon: "error",
+          color : "#fff",
+          background:"#33322e",
           title: "Mauvais mot de passe ! ",
           text: "Veuillez Reessayer",
         });

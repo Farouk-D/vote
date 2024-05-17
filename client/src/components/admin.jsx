@@ -66,38 +66,75 @@ const AdminComponent = () => {
   
 
 return  isAllowed && (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
-      <header className="bg-blue-500 p-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-white text-2xl font-bold">Mon Application</h1>
-          <div className="flex space-x-4">
-            <button className="bg-white text-blue-500 hover:bg-blue-100 px-4 py-2 rounded-md" onClick={handleVerifyAllDecrypt}>Liste des votes</button>
-            <button className="bg-white text-blue-500 hover:bg-blue-100 px-4 py-2 rounded-md" onClick={handleDeleteVote}>Supprimer le vote en cours</button>
-            <button className="bg-white text-blue-500 hover:bg-blue-100 px-4 py-2 rounded-md" onClick={handleCreateVote}>Créer un vote</button>
-            <button className="bg-white text-blue-500 hover:bg-blue-100 px-4 py-2 rounded-md" onClick={handleStartDecrypt}>Lancement du déchiffrement</button>
-            <form className="space-x-3 flex py-2" onSubmit={handleSubmit(handleDecrypt)}>
-              <div>
-                <label htmlFor="indiceSelect" className="text-blue-500">Indice de la clé de déchiffrement :</label>
-                <select {...register("ind",{required: true})}>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </div>
-              <input type="text" {...register("cle",{required: true})} placeholder="Clé de déchiffrement" />
-              <button type="submit" className="bg-white text-blue-500 hover:bg-blue-100 px-4 py-2 rounded-md">Déchiffrer </button>
-            </form>
-            <button className="bg-white text-blue-500 hover:bg-blue-100 px-4 py-2 rounded-md" onClick={handleLogOut}>Déconnexion </button>
+  <div className="bg-gray-100 min-h-screen flex">
+      <aside className="bg-zinc-950 w-1/5 flex flex-col space-y-4">
+        <button
+          className="text-white  hover:bg-blue-100 px-4 py-4"
+          onClick={handleVerifyAllDecrypt}
+        >
+          Afficher pour tous les Votes ! 
+        </button>
+    
+        <button
+          className="text-white hover:bg-blue-100 px-4 py-4"
+          onClick={handleCreateVote}
+        >
+          Créer un vote
+        </button>
+        <button
+          className="text-white hover:bg-blue-100 px-4 py-4"
+          onClick={handleDeleteVote}
+        >
+          Supprimer le vote en cours
+        </button>
+        <div className="border"></div>
+        <button
+          className="text-white hover:bg-blue-100 px-4 py-4 rounded-md"
+          onClick={handleStartDecrypt}
+        >
+          Lancement du déchiffrement
+        </button>
+        <form className="space-y-3 flex flex-col" onSubmit={handleDecrypt}>
+          <div>
+            <label htmlFor="indiceSelect" className="text-white">
+              Indice de la clé de déchiffrement :
+            </label>
+            <select name="ind" required className="ml-2">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
           </div>
+          <input
+            type="text"
+            name="cle"
+            required
+            placeholder="Clé de déchiffrement"
+            className="px-2 py-2 rounded-md"
+          />
+          <button
+            type="submit"
+            className="text-white hover:bg-blue-100 px-4 py-4 rounded-md"
+          >
+            Déchiffrer
+          </button>
+        </form>
+        <div className="border"></div>
+        <button
+          className="text-white hover:bg-blue-100 px-4 py-4 rounded-md"
+          onClick={handleLogOut}
+        >
+          Déconnexion
+        </button>
+      </aside>
+      <main className="flex-grow p-4 w-2/3">
+        <div className="bg-white p-4 rounded-md shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Zone d'administration</h2>
         </div>
-      </header>
-      <main className="flex-grow p-4">
       </main>
-      <div>
-      </div>
     </div>
-  ) 
+  );
 
 }
 
