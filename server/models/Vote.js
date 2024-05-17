@@ -6,7 +6,7 @@ const VoteSchema = new mongoose.Schema ({
         type: [String],
         required : true,
     },
-    prime: {
+    delta: {
         type: String,
         required : true,
     },

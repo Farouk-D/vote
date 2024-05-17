@@ -65,15 +65,25 @@ const AdminComponent = () => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
+
+    const handleEndDecrypt = () => {
+      axios.get(`${process.env.REACT_APP_API_URL}/admin/endDecrypt`).then(res => {
+        alert(res.data.message)
+      }).catch(err => console.log(err))
+    }
+
     const handleVerifyAllDecrypt = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/admin/verifyAllDecrypt`).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
     const handleDecrypt = (data) => {
-      console.log(data)
       const indice = data.ind
       const share = data.cle
+      console.log(data)
+      console.log(typeof(indice))
+      console.log(typeof(share))
+      console.log(uid.userMail)
       axios.post(`${process.env.REACT_APP_API_URL}/admin/decrypt`,{adminMail:uid.userMail,share,indice}).then(res => {
         alert(res.data.message)
       }).catch(err => console.log(err))
@@ -121,12 +131,12 @@ return  isAllowed && (
           <FcDataEncryption className="text-4xl mr-10"/>
           Lancement du déchiffrement
         </button>
-        <form className="space-y-3 flex flex-col" onSubmit={handleDecrypt}>
+        <form className="space-y-3 flex flex-col" onSubmit={handleSubmit(handleDecrypt)}>
           <div className="px-6 ">
             <label htmlFor="indiceSelect" className="text-white ">
               Indice de la clé de déchiffrement :
             </label>
-            <select name="ind" required className="ml-2">
+            <select name="ind" required className="ml-2" {...register("ind", { required: true })}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -139,6 +149,7 @@ return  isAllowed && (
             required
             placeholder="Clé de déchiffrement"
             className="px-6 py-2 rounded-md ml-4 mr-4"
+            {...register("cle",{required: true})}
           />
           <button
             type="submit"
@@ -148,6 +159,13 @@ return  isAllowed && (
             Déchiffrer
           </button>
         </form>
+        <button
+          className="text-white hover:bg-zinc-600 px-4 py-4 rounded-md flex items-center"
+          onClick={handleEndDecrypt}
+        >
+          <FcDataEncryption className="text-4xl mr-10"/>
+          Finir le décryptage
+        </button>
         <div className="border-2 border-zinc-600"></div>
         <button
           className="text-white hover:bg-zinc-600 px-4 py-4 flex items-center"
