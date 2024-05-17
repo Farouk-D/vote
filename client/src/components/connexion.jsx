@@ -57,12 +57,11 @@ const Connexion = () => {
 
                 <div>
                     <a href="/">
-                        <h3 className="text-4xl font-bold text-purple-600">
-                            Logo
-                        </h3>
+                      <img src="/VoteLogo.jpg" alt="Logo" className="h-auto w-48" />  
+
                     </a>
                 </div>
-                <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-black shadow-md sm:max-w-md sm:rounded-lg">
+                <div className="w-full px-6 py-4 overflow-hidden bg-black shadow-md sm:max-w-md sm:rounded-lg">
                     <form onSubmit={handleSubmit(onSubmit)}>
                        
                         <div className="mt-10">
