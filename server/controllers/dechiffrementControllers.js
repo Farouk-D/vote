@@ -16,7 +16,7 @@ module.exports.decrypt = async(req,res) => {
 
         let c = bigInt(admin.get("decryptValue"))
         console.log("2eme ")
-        let sha = c.modPow(bigInt(2).times(delta).times(bigInt(share.trim())), n.pow(2)).toString()
+        let sha = c.modPow(bigInt(2).times(delta).times(share.trim()), n.pow(2)).toString()
         console.log("3eme ")
         await DechiffrementModel.updateOne({},{ $push: { decryptedShare: sha,indice: indice }})
 

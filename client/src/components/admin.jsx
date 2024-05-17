@@ -10,6 +10,8 @@ import { SiCryptpad } from "react-icons/si";
 import { FcDataEncryption } from "react-icons/fc";
 import { MdLogout } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
+import { MdCheckCircle } from "react-icons/md";
+
 
 
 const AdminComponent = () => {
@@ -70,6 +72,13 @@ const AdminComponent = () => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
+    const handleDeleteUser = (id) => {
+      axios.delete(`${process.env.REACT_APP_API_URL}/auth/deleteUser/${id}`).then(res => {
+        const filteredUsers = users.filter(user => user._id !== id)
+        setUsers(filteredUsers)
+        alert(res.data.message)
+      }).catch(err => console.log(err))
+    }
     const handleDecrypt = (data) => {
       const indice = data.ind
       const share = data.cle
@@ -119,7 +128,7 @@ return  isAllowed && (
         </button>
         <div className="border-2 border-zinc-600"></div>
         <button
-          className="text-white hover:bg-zinc-600 px-4 py-4 rounded-md flex items-center"
+          className="text-white hover:bg-zinc-600 px-4 py-4 flex items-center"
           onClick={handleStartDecrypt}
         >
           <FcDataEncryption className="text-4xl mr-10"/>
@@ -154,10 +163,10 @@ return  isAllowed && (
           </button>
         </form>
         <button
-          className="text-white hover:bg-zinc-600 px-4 py-4 rounded-md flex items-center"
+          className="text-white hover:bg-zinc-600 px-4 py-4 flex items-center"
           onClick={handleEndDecrypt}
         >
-          <FcDataEncryption className="text-4xl mr-10"/>
+          <MdCheckCircle className="text-4xl mr-10"/>
           Finir le décryptage
         </button>
         <div className="border-2 border-zinc-600"></div>
@@ -198,7 +207,7 @@ return  isAllowed && (
                   <p className="text-md  text-white min-w-[120px] ">
                     {user.userMail}
                   </p>
-                  <p className=" text-2xl text-red-500 w-[50px] ml-auto cursor-pointer">
+                  <p className=" text-2xl text-red-500 w-[50px] ml-auto cursor-pointer" onClick={() => handleDeleteUser(user._id)}>
                     <MdDeleteForever />
                   </p>
                 </div>

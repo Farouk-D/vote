@@ -1,6 +1,7 @@
 const UserModel = require("../models/Users.js")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
+const objID = require('mongoose').Types.ObjectId;
 
 module.exports.getUser = async(req,res) => { 
     const {userMail} = req.body;
@@ -77,12 +78,15 @@ module.exports.logout = (req, res) => {
     return res.json({valid: true})
 }
 
-module.exports.deleteAllUsers = (req,res) => {
-    UserModel.deleteMany({},function(err) {
-        if (err) {
-            res.json({valid:false,message: err})
-        } else {
-            res.json({valid:true})
-        }
-    })
+module.exports.deleteUser = async (req, res) => {
+    if (!objID.isValid(req.params.id))
+        return res.status(400).send("ID inconnu : " + req.params.id);
+
+    try {
+        await UserModel.findOneAndDelete({ _id: req.params.id });
+        res.status(200).json({ message: "Suppression reussit !!!" });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
 }
+

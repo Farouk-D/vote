@@ -13,7 +13,7 @@ router.get("/admin",admin,userController.getAdmin)
 router.post("/register", userController.register)
 router.post("/login", userController.login)
 router.get('/logout', userController.logout)
-router.delete("/deleteAllUsers",[verifyUser,admin],userController.deleteAllUsers)
+router.delete("/deleteUser/:id",[verifyUser,admin],userController.deleteUser)
 
 
 module.exports=router;
