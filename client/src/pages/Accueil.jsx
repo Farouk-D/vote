@@ -1,10 +1,23 @@
 import { useNavigate } from "react-router-dom"; // This will be used to navigate to the login page
+import React,{useContext} from "react"
+import { UidContext } from "../AppContext";
+import Swal from 'sweetalert2'
 
 export default function Accueil() {
+  const uid = useContext(UidContext);
   const navigate = useNavigate(); // Hook to navigate
 
   const handleLoginRedirect = () => {
-    navigate("/login"); // Redirect function
+    if (uid) {
+      Swal.fire({
+        icon: "warning",
+        color : "#fff",
+        background:"#33322e",
+        title: "Ca arrive ... (TIC TAC)",
+      });
+    }
+    else {navigate("/login"); }
+    
   };
 
 
