@@ -1,13 +1,13 @@
 import React, { useState,useEffect} from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate  } from 'react-router-dom';
 import axios from 'axios';
-import { UidContext} from '../AppContext';
-import Vote from './Vote';
-import Login from './Login';
-import Register from './Register';
-import AdminPage from './AdminPage';
-import ConfirmRegister from './ConfirmRegister';
-import NavigBar from '../components/NavigBar';
+import { UidContext} from './AppContext';
+import Vote from './pages/Vote';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import AdminPage from './pages/AdminPage';
+import ConfirmRegister from './pages/ConfirmRegister';
+import NavigBar from './components/NavigBar';
 
 function App() {
     const [uid, setUid] = useState(null)

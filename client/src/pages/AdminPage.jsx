@@ -3,8 +3,6 @@ import AdminComponent from "../components/admin";
 
 function AdminPage() {
   
- 
-
   return  (
     <div>
       <AdminComponent/>
