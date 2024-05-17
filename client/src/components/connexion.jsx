@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {useForm} from "react-hook-form";
 import { SpanAlerte } from './SpanAlerte';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,22 @@ const Connexion = () => {
     } = useForm()
 
     axios.defaults.withCredentials = true
+
+    const backgrounds = [
+      '/ViniciusBellingham.png'
+
+  ];
+
+  const [bgIndex, setBgIndex] = useState(0);
+
+  useEffect(() => {
+      const intervalId = setInterval(() => {
+          setBgIndex((current) => (current + 1) % backgrounds.length);
+      }, 10000); // Change l'image toutes les 10 secondes
+
+      return () => clearInterval(intervalId); // Nettoyage de l'intervalle
+  }, []);
+
     const onSubmit = async (data) => {
 
        
@@ -37,7 +53,8 @@ const Connexion = () => {
 
     return (
         <div>
-            <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
+            <div style={{ backgroundImage: `url(${backgrounds[bgIndex]})`, backgroundSize: 'cover', backgroundPosition: 'center' }} className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0">
+
                 <div>
                     <a href="/">
                         <h3 className="text-4xl font-bold text-purple-600">
@@ -45,13 +62,13 @@ const Connexion = () => {
                         </h3>
                     </a>
                 </div>
-                <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+                <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-black shadow-md sm:max-w-md sm:rounded-lg">
                     <form onSubmit={handleSubmit(onSubmit)}>
                        
-                        <div className="mt-4">
+                        <div className="mt-10">
                             <label
                                 htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 undefined"
+                                className="block text-lg font-medium text-amber-300 undefined"
                             >
                                 Email
                             </label>
@@ -67,12 +84,12 @@ const Connexion = () => {
                                 
                             </div>
                         </div>
-                        <div className="mt-4">
+                        <div className="mt-10 mb-10">
                             <label
                                 htmlFor="password"
-                                className="block text-sm font-medium text-gray-700 undefined"
+                                className="block text-lg font-medium text-amber-300 undefined"
                             >
-                                Password
+                                Mot De Passe
                             </label>
                             <div className="flex flex-col items-start">
                                 <input
@@ -87,7 +104,7 @@ const Connexion = () => {
                             </div>
                         </div>
                         
-                        <div className="flex items-center justify-end mt-4">
+                        <div className="flex items-center justify-end mt-4 mb-10">
                             <a
                                 className="text-sm text-gray-600 underline hover:text-gray-900"
                                 href="/inscription"
