@@ -20,8 +20,12 @@ const Connexion = () => {
   axios.defaults.withCredentials = true
 
   const backgrounds = [
+    'https://www.hdwallpapers.in/download/black_and_gold_tunnels_glare_lights_4k_hd_black_and_gold-3840x2160.jpg',
+    'https://pbs.twimg.com/media/F9td8OzWEAAEJn0.jpg:large',
+    'https://wallpaper.forfun.com/fetch/7d/7ddc54e8ffbb9afc4674c2707f7c15a4.jpeg',
+    'https://www.fanzword.com/wp-content/uploads/2024/05/GettyImages-1610621328-fotor-20231008145311-scaled.webp',
     '/ViniciusBellingham.png',
-    'https://www.hdwallpapers.in/download/plain_gold_textile_hd_gold-HD.jpg'
+    'https://i.pinimg.com/originals/e4/6c/af/e46cafd7bf8a1bba700920f57c8f7acd.jpg'
   ];
 
   const [bgIndex, setBgIndex] = useState(0);
@@ -29,7 +33,7 @@ const Connexion = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setBgIndex((current) => (current + 1) % backgrounds.length);
-    }, 5000); // Change l'image toutes les 10 secondes
+    }, 3000); // Change l'image toutes les 10 secondes
 
     return () => clearInterval(intervalId); // Nettoyage de l'intervalle
   }, []);

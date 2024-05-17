@@ -9,6 +9,7 @@ import AdminPage from './pages/AdminPage';
 import ConfirmRegister from './pages/ConfirmRegister';
 import NavigBar from './components/NavigBar';
 import Accueil from './pages/Accueil';
+import Aide from './pages/Aide';
 
 function App() {
     const [uid, setUid] = useState(null)
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/Vote" element={uid ? <Vote /> : <Navigate to="/" />}/>
                 <Route path="/verif" element={ <ConfirmRegister />} />
                 <Route path="/admin" element={uid ? <AdminPage /> : <Navigate to="/" />} />
+                <Route path="/Aide" element={< Aide />} />
                 <Route path="*" element={<h2 className='dark:text-[#0f0f0f] '>La page n'existe pas</h2>} />
                 <Route path="/" element={ <Accueil />} />
               </Routes>
