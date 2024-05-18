@@ -24,6 +24,7 @@ const Connexion = () => {
   const backgrounds = [
     'https://www.hdwallpapers.in/download/black_and_gold_tunnels_glare_lights_4k_hd_black_and_gold-3840x2160.jpg',
     'https://pbs.twimg.com/media/F9td8OzWEAAEJn0.jpg:large',
+    '/HediVSFarouk2.png',
     'https://wallpaper.forfun.com/fetch/7d/7ddc54e8ffbb9afc4674c2707f7c15a4.jpeg',
     'https://www.fanzword.com/wp-content/uploads/2024/05/GettyImages-1610621328-fotor-20231008145311-scaled.webp',
     '/ViniciusBellingham.png',
@@ -38,7 +39,7 @@ const Connexion = () => {
       setBgIndex((current) => (current + 1) % backgrounds.length);
     }, 7000); // Change l'image toutes les 10 secondes
 
-    return () => clearInterval(intervalId); // Nettoyage de l'intervalle
+    return () => clearInterval(intervalId); // Nettoyage de l'intervalle²²
   }, []);
 
   const onSubmit = async (data) => {
