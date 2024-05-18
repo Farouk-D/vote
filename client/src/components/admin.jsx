@@ -11,6 +11,7 @@ import { FcDataEncryption } from "react-icons/fc";
 import { MdLogout } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 import { MdCheckCircle } from "react-icons/md";
+import Swal from 'sweetalert2'
 
 
 
@@ -47,13 +48,47 @@ const AdminComponent = () => {
         alert(res.data.message)
       }).catch(err => console.log(err))
     }
-    const handleCreateVote = (data) => {
-      let currentDate = new Date();
-      let dateEnd = new Date(currentDate.getTime() + 5 * 60000); 
-      let formattedDateEnd = dateEnd.toISOString();
-      axios.post(`${process.env.REACT_APP_API_URL}/vote/createVote`,{dateEnd:formattedDateEnd}).then(res => {
+    const handleCreateVote = async(data) => {
+
+      const { value: dateTime } = await Swal.fire({
+        title: 'Sélectionner la date de fin du vote ',
+        html: `
+          <input id="swal-input-date" class="swal2-input" type="date">
+          <input id="swal-input-time" class="swal2-input" type="time">
+        `,
+        background:"#33322e",
+        color:"#fff",
+        didOpen: () => {
+          const inputDateElement = document.getElementById('swal-input-date');
+          inputDateElement.type = 'date';
+          const inputTimeElement = document.getElementById('swal-input-time');
+          inputTimeElement.type = 'time';
+        },
+        preConfirm: () => {
+          const inputDate = document.getElementById('swal-input-date').value;
+          const inputTime = document.getElementById('swal-input-time').value;
+          return { date: inputDate, time: inputTime };
+        }
+      });
+      
+      if (dateTime) {
+        const { date, time } = dateTime;
+        const [year, month, day] = date.split('-');
+        const [hour, minute] = time.split(':');
+        const parsedDate = new Date(year, month - 1, day, hour, minute);
+        const formattedDate = parsedDate.toISOString();
+        console.log(formattedDate);
+        axios.post(`${process.env.REACT_APP_API_URL}/vote/createVote`,{dateEnd:formattedDate}).then(res => {
         alert(res.data.message)
-      }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+      }
+        // let currentDate = new Date();
+        // let dateEnd = new Date(currentDate.getTime() + 5 * 60000); 
+        // let formattedDateEnd = dateEnd.toISOString();
+        // console.log(formattedDateEnd)
+        
+      
+
     }
     const handleStartDecrypt = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/admin/startDecrypt`).then(res => {

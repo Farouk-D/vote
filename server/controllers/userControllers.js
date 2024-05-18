@@ -8,7 +8,6 @@ module.exports.getUser = async(req,res) => {
     try {
         // Permet de vérifier que l'ID existe bien dans notre BD 
         const user = await UserModel.findOne({userMail});
-    
         //Si l'user existe donc son ID est dans notr BD, alors on affiche un msg
         if (user) {
             return res.status(201).json({ message: "L'utilisateur existe déjà." });
@@ -53,22 +52,26 @@ module.exports.register = async(req,res) => {
 
 module.exports.login = async (req,res) => {
     const {userMail,password} = req.body;
+    try {
+        // On regarde si l'ID existe dans la BD 
+        const user = await UserModel.findOne({userMail});
 
-    // On regarde si l'ID existe dans la BD 
-    const user = await UserModel.findOne({userMail});
-
-    if (!user) {
-        return res.status(400).json({message:"L'utilisateur n'existe pas"});
-    }
-    const isPassword = await bcrypt.compare(password,user.password) 
-    // const userRole = user.userRole
-    
-    if (isPassword) {
-        const token = jwt.sign({id:user._id,userMail,userRole:user.userRole},process.env.TOKEN_SECRET, {expiresIn:"1d"})
-        //res.cookie("token",token,{httpOnly: true, secure:true, sameSite: "strict"})
-        return res.status(200).json({token,message:"Mot de passe Correct"});
-    }
-    else {return res.status(201).json({token:null,message:"Mauvais mdp"});}
+        if (!user) {
+            return res.status(202).json({message:"L'utilisateur n'existe pas"});
+        }
+        const isPassword = await bcrypt.compare(password,user.password) 
+        // const userRole = user.userRole
+        
+        if (isPassword) {
+            const token = jwt.sign({id:user._id,userMail,userRole:user.userRole},process.env.TOKEN_SECRET, {expiresIn:"1d"})
+            //res.cookie("token",token,{httpOnly: true, secure:true, sameSite: "strict"})
+            return res.status(200).json({token,message:"Mot de passe Correct"});
+        }
+        else {return res.status(201).json({token:null,message:"Mauvais mdp"});}
+    } catch (error) {
+        console.error("Une erreur s'est produite lors de l'inscription :", error);
+        res.status(500).json({ message: "Une erreur s'est produite lors de l'inscription." });
+}
 
 
 }

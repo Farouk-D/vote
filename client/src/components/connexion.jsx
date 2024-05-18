@@ -44,14 +44,25 @@ const Connexion = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`,{userMail:data.email,password:data.password});
-      if (response.status === 200) {
-        Cookies.set("token", response.data.token, { expires: 7 });
+      if (response.status !== 200) {
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Adresse mail ou mot de passe invalide.',
+            footer: '<a href="/inscription">Vous n\'avez pas de compte ? Inscrivez-vous ici</a>',
+            background: "#33322e",
+            color: "#fff"
+        });
+        }
+        else {
+          Cookies.set("token", response.data.token, { expires: 7 });
         navigate("/")
         const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             didOpen: (toast) => {
               toast.onmouseenter = Swal.stopTimer;
@@ -65,16 +76,6 @@ const Connexion = () => {
             background:"#33322e"
           });
           window.location.reload();
-        }
-        else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Adresse mail ou mot de passe invalide.',
-            footer: '<a href="/inscription">Vous n\'avez pas de compte ? Inscrivez-vous ici</a>',
-            background: "#33322e",
-            color: "#fff"
-        });
         }
     } catch(err) {
       console.log(err)
