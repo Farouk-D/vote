@@ -5,6 +5,7 @@ import { SpanAlerte } from './SpanAlerte';
 import { sendAuthMail } from './emailSender';
 import axios from 'axios';
 
+
 const Verification = () => {
   const location = useLocation();
   const { code, userMail, password, userRole } = location.state;
