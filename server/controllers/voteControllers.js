@@ -14,7 +14,7 @@ module.exports.getClePub = async(req,res) => {
         const pubCle = clePub.clePub 
         return res.json({valid: true,pubCle});
     }catch (error) {
-        return res.status(500).json({valid: true, message: "Error" });
+        return res.status(500).json({valid: false, message: "Error" });
     }
     
 }
@@ -52,9 +52,8 @@ module.exports.deleteVote = async (req,res) => {
 
 module.exports.testVote = async(req,res) => {
     const {userId} = req.body
-    if (!objID.isValid(userId))
-        return res.status(400).send("ID inconnu : " + userId);
-
+    if (!objID.isValid(userId) || req.params.id !== userId)
+        return res.send({message:"Mauvais ID"});
     try {
         const user = await UserModel.findById(userId);
             if (!user) {return res.json({valid:false,message:"Utilisateur non existant"});} 
@@ -79,7 +78,7 @@ module.exports.postVote = async (req,res) => {
     try {
         const vote = await VoteModel.findOne({})
         if (vote.dateEnd.getTime() < voteTime) {
-            return res.json({message:"la date limite a été depassé ! "})
+            return res.json({valid:false,message:"la date limite a été depassé ! "})
         }
         await VoteModel.findOneAndUpdate(
             {},
@@ -91,7 +90,7 @@ module.exports.postVote = async (req,res) => {
             { $set: { userVoted: true } },
             { new: true }
         );
-        return res.json({message:"Votre vote a bien été pris en compte"});
+        return res.json({valid:true,message:"Votre vote a bien été pris en compte"});
 
         } catch(error) {
             console.error("Une erreur s'est produite lors de la mise à jour :");

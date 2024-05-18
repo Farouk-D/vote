@@ -1,13 +1,17 @@
 import React, { useEffect, useState,useContext } from "react"
 import {useForm} from "react-hook-form"
 import axios from "axios"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import bigInt from 'big-integer';
 import { UidContext } from "../AppContext";
+import Swal from 'sweetalert2'
 
 const BO = () => {
+  const location = useLocation()
+  const { clePub } = location.state || null;
   const [voteSelected,setVoteSelected] = useState("")
   const [isAllowed,setIsAllowed] = useState(false)
+  const [value,setValue] = useState(null)
   const uid = useContext(UidContext);
   axios.defaults.withCredentials = true;
 
@@ -24,11 +28,9 @@ const BO = () => {
 
   const crypt = async (userVote) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/vote/getClePub`)
-      const publicKey = response.data.pubCle
-      if (response.data.valid) {
-        let n = bigInt(publicKey[0])
-        let g = bigInt(publicKey[1])
+      if (clePub) {
+        let n = bigInt(clePub[0])
+        let g = bigInt(clePub[1])
         let x = Gen_Coprime(n)
         let temp1 = g.modPow(bigInt(userVote), n.multiply(n))
         let temp2 = x.modPow(n, n.multiply(n))
@@ -56,22 +58,40 @@ const BO = () => {
 
   const onSubmit = async (data) => {
     const userId = data.id;
-    const userVote = data.vote;
+    const userVote = value;
   
     try {
-      const testVoteResponse = await axios.post(`${process.env.REACT_APP_API_URL}/vote/testVote`, { userId })
-      alert(testVoteResponse.data.message)
+      const testVoteResponse = await axios.post(`${process.env.REACT_APP_API_URL}/vote/testVote/${uid._id}`, { userId })
   
-      if (testVoteResponse.data.valid) {
-        const resultat = await crypt(userVote)
-        const postVoteResponse = await axios.post(`${process.env.REACT_APP_API_URL}/vote/postVote`, {
-          userId,
-          voteTime: new Date().getTime(),
-          resultat
-        })
-        alert(postVoteResponse.data.message)
+      if (testVoteResponse.data.valid ) {
+        if (userVote ){
+          const resultat = await crypt(userVote)
+          const postVoteResponse = await axios.post(`${process.env.REACT_APP_API_URL}/vote/postVote`, {
+            userId,
+            voteTime: new Date().getTime(),
+            resultat
+          })
+          Swal.fire({
+            icon: postVoteResponse.data.valid ? "success" : "warning",
+            title: postVoteResponse.data.message ,
+            background: "#00000a",
+            color: "#fff"
+          });
+        } else {
+          Swal.fire({
+            icon: 'Warning',
+            title: 'Veuillez sélectionner une image ',
+            background: "#00000a",
+            color: "#fff"
+          });
+      }
       } else {
-        alert(testVoteResponse.data.message)
+        Swal.fire({
+          icon: 'warning',
+          title: testVoteResponse.data.message,
+          background: "#00000a",
+          color: "#fff"
+        });
       }
     } catch (err) {
       alert("Une erreur s'est produite lors de la soumission du vote : " + err.message)
@@ -88,11 +108,17 @@ const BO = () => {
 
         
       <div className={`flex items-center justify-center w-full`}>
-        <button onClick={() => setVoteSelected("Jude")}
+        <button onClick={() => {
+        setVoteSelected("Jude")
+        setValue("0")
+      }}
                 className="mx-2">
           <img src="/Jude.jpg" alt="Première Image" className={`${voteSelected === "Jude" ? "border-4 border-yellow-600 w-96 h-96" : "w-80 h-80"}  shadow-lg hover:shadow-xl transition-shadow duration-300`}/>
         </button>
-        <button onClick={() => setVoteSelected("Diable")}
+        <button onClick={() => {
+        setVoteSelected("Diable")
+        setValue("1")
+      }}
                 className="mx-2">
           <img src="Vini.jpg" alt="Deuxième Image" className={`${voteSelected === "Diable" ? "border-4 border-yellow-600 w-96 h-96" : "w-80 h-80"} shadow-lg hover:shadow-xl transition-shadow duration-300`} />
         </button>

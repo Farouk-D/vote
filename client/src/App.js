@@ -15,6 +15,7 @@ import VoteBO from './pages/VoteBO';
 
 function App() {
     const [uid, setUid] = useState(null)
+    const [clePub,setClePub] = useState(null)
     useEffect(() => {
       async function checkAuth() {
         await axios({
@@ -41,14 +42,14 @@ function App() {
               <Routes>
                 <Route path="/inscription" element={<Register />}/>
                 <Route path="/Login" element={<Login />}/>
-                <Route path="/Vote" element={uid ? <Vote /> : <Navigate to="/" />}/>
+                <Route path="/Vote" element={uid ? <Vote clePub={clePub}/> : <Navigate to="/" />}/>
                 <Route path="/verif" element={ <ConfirmRegister />} />
                 <Route path="/admin" element={uid ? <AdminPage /> : <Navigate to="/" />} />
                 <Route path="/Aide" element={< Aide />} />
-                <Route path="/VoteBO" element={<VoteBO />}/>
+                <Route path="/VoteBO" element={uid ? <VoteBO /> : <Navigate to="/" /> }/>
                 <Route path="/Choix" element={<AccueilVote />}/>
                 <Route path="*" element={<h2 className='dark:text-[#0f0f0f] '>La page n'existe pas</h2>} />
-                <Route path="/" element={ <Accueil />} />
+                <Route path="/" element={ <Accueil/>} />
               </Routes>
             </main>
           </div>

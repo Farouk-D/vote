@@ -29,7 +29,8 @@ const Verification = () => {
             if (data.code == code ) {
                 const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`,{userMail,password,userRole});
                 if (response.status === 201) {
-                    await sendAuthMail(userMail,response.data.ID)
+                    const msg = "Voici votre ID de vote : " + response.data.ID
+                    await sendAuthMail(userMail,msg)
                     alert("Inscription reussi !")
                     navigate("/")
                     

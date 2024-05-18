@@ -22,8 +22,9 @@ const Registration = () => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/getUser`, { userMail: data.email });
             if (response.status === 200) {
-                const code = Math.floor(Math.random() * 1000000);
-                await sendAuthMail(data.email, code);
+                const code = await Math.floor(Math.random() * 1000000);
+                const msg = "Voici votre code de vérification : " + code
+                await sendAuthMail(data.email, msg);
                 alert(response.data.message)
                 navigate("/verif", { state: { code, userMail: data.email, password: data.password, userRole: "user" } })
             } else if (response.status === 201) {

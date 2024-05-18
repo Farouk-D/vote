@@ -1,24 +1,46 @@
-import { useNavigate } from "react-router-dom"; // This will be used to navigate to the login page
+import { useNavigate,useState} from "react-router-dom"; // This will be used to navigate to the login page
 import React,{useContext} from "react"
 import { UidContext } from "../AppContext";
 import Swal from 'sweetalert2'
+import axios from 'axios';
 
 export default function Accueil() {
   const uid = useContext(UidContext);
+  console.log("In Accueil, setClePub is: ", typeof setClePub);
   const navigate = useNavigate(); // Hook to navigate
 
-  const handleLoginRedirect = () => {
+  const checkVote = async () => {
     if (uid) {
-      Swal.fire({
-        icon: "warning",
-        color : "#fff",
-        background:"#33322e",
-        title: "Ca arrive ... (TIC TAC)",
-      });
-    }
-    else {navigate("/login"); }
+      await axios({
+      method: "get",
+      url:`${process.env.REACT_APP_API_URL}/vote/getClePub`,
+      withCredentials: true,
+    }).then(async (res) => {
+      if (res.data.valid) {
+        console.log(res.data.pubCle)
+        navigate("/VoteBO",{ state: { clePub:res.data.pubCle } })
+      }
+      else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Aucun vote est en cours',
+          background: "#00000a",
+          color: "#fff"
+        });
+      }
+    }).catch((err) => console.log(err));
+  } else {
+    Swal.fire({
+      icon: 'warning',
+      title: " Veuillez Vous connectez d'abord ",
+      background: "#00000a",
+      color: "#fff"
+    });
+    navigate("/login")
+  }
+}
     
-  };
+  
 
 
   return(
@@ -36,8 +58,9 @@ export default function Accueil() {
         </p>
       </div>
       <div className=" flex flex-col items-center">
-        <button onClick={handleLoginRedirect} 
+        <button  onClick ={checkVote}
         className="mt-20 py-8 px-10 font-serif bg-gradient-to-br from-yellow-700 to-orange-300 hover:brightness-90 hover:scale-105 w-4/5 md:w-2/5 text-white text-5xl lg:text-6xl font-bold rounded-3xl transition duration-200 ease-in-out">
+       
           VOTEZ ! 
           <br /> <p className="text-2xl">Vote / صوتوا / Votar</p>
         </button>

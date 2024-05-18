@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import bigInt from 'big-integer';
 import { UidContext } from "../AppContext";
 
-function Vote() {
+function Vote(props) {
   
   const [isAllowed,setIsAllowed] = useState(false)
   const uid = useContext(UidContext);
@@ -24,9 +24,8 @@ function Vote() {
 
   const crypt = async (userVote) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/vote/getClePub`)
-      const publicKey = response.data.pubCle
-      if (response.data.valid) {
+      const publicKey = props.clePub
+      if (publicKey) {
         let n = bigInt(publicKey[0])
         let g = bigInt(publicKey[1])
         let x = Gen_Coprime(n)
