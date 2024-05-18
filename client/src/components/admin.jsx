@@ -38,17 +38,35 @@ const AdminComponent = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/auth/getUsers`).then(res => {
           console.log(res.data)
           setUsers(res.data)
-        }).catch(err => console.log(err))
+        }).catch(err => {
+          Swal.fire({
+            icon: "error",
+            color : "#fff",
+            background:"#33322e",
+            title: "Une erreur est survenu ! (getUsers) ",
+          });})
 
       }
     }, []);
 
     const handleDeleteVote = () => {
       axios.delete(`${process.env.REACT_APP_API_URL}/vote/deleteVote`).then(res => {
-        alert(res.data.message)
-      }).catch(err => console.log(err))
+        Swal.fire({
+          icon: res.data.valid ? "success" : "error",
+          color : "#fff",
+          background:"#33322e",
+          title: res.data.message,
+        });
+      }).catch(err => {
+        Swal.fire({
+          icon: "error",
+          color : "#fff",
+          background:"#33322e",
+          title: "Une erreur est survenu ! ",
+        });
+      })
     }
-    const handleCreateVote = async(data) => {
+    const handleCreateVote = async() => {
 
       const { value: dateTime } = await Swal.fire({
         title: 'Sélectionner la date de fin du vote ',
@@ -78,9 +96,52 @@ const AdminComponent = () => {
         const parsedDate = new Date(year, month - 1, day, hour, minute);
         const formattedDate = parsedDate.toISOString();
         console.log(formattedDate);
-        axios.post(`${process.env.REACT_APP_API_URL}/vote/createVote`,{dateEnd:formattedDate}).then(res => {
-        alert(res.data.message)
-        }).catch(err => console.log(err))
+        let timerInterval;
+        Swal.fire({
+          title: 'Création du vote en cours...',
+          html: 'Veuillez patienter <b></b>',
+          color : "#fff",
+          background:"#33322e",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getHtmlContainer().querySelector('b');
+            timerInterval = setInterval(() => {
+              timer.textContent = Swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        });
+      
+        // Envoyer la requête axios
+        axios.post(`${process.env.REACT_APP_API_URL}/vote/createVote`, { dateEnd: formattedDate })
+          .then(res => {
+            Swal.close();
+            Swal.fire({
+              icon: res.data.valid ? "success" : "error",
+              color : "#fff",
+              background:"#33322e",
+              title: res.data.message,
+            });
+          })
+          .catch(err => {
+          
+            Swal.close();
+            {
+              Swal.fire({
+                icon: "error",
+                color : "#fff",
+                background:"#33322e",
+                title: "Une erreur est survenu ! ",
+              });}
+            
+            
+          });
+      
+        
       }
         // let currentDate = new Date();
         // let dateEnd = new Date(currentDate.getTime() + 5 * 60000); 
@@ -92,27 +153,67 @@ const AdminComponent = () => {
     }
     const handleStartDecrypt = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/admin/startDecrypt`).then(res => {
-        alert(res.data.message)
-      }).catch(err => console.log(err))
+        Swal.fire({
+          icon: res.data.valid ? "success" : "error",
+          color : "#fff",
+          background:"#33322e",
+          title: res.data.message,
+        });
+      }).catch(err => {
+        Swal.fire({
+          icon: "error",
+          color : "#fff",
+          background:"#33322e",
+          title: "Une erreur est survenu ! ",
+        });}
+      )
     }
 
     const handleEndDecrypt = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/admin/endDecrypt`).then(res => {
-        alert(res.data.message)
-      }).catch(err => console.log(err))
+        Swal.fire({
+          icon: res.data.valid ? "success" : "error",
+          color : "#fff",
+          background:"#33322e",
+          title: res.data.message,
+        });
+      }).catch(err => {
+        Swal.fire({
+          icon: "error",
+          color : "#fff",
+          background:"#33322e",
+          title: "Une erreur est survenu ! ",
+        });})
     }
 
     const handleVerifyAllDecrypt = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/admin/verifyAllDecrypt`).then(res => {
-        alert(res.data.message)
-      }).catch(err => console.log(err))
+        Swal.fire({
+          icon: res.data.valid ? "success" : "error",
+          color : "#fff",
+          background:"#33322e",
+          title: res.data.message,
+        });
+      }).catch(err => {
+        Swal.fire({
+          icon: "error",
+          color : "#fff",
+          background:"#33322e",
+          title: "Une erreur est survenu ! ",
+        });})
     }
     const handleDeleteUser = (id) => {
       axios.delete(`${process.env.REACT_APP_API_URL}/auth/deleteUser/${id}`).then(res => {
         const filteredUsers = users.filter(user => user._id !== id)
         setUsers(filteredUsers)
         alert(res.data.message)
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        Swal.fire({
+          icon: "error",
+          color : "#fff",
+          background:"#33322e",
+          title: "Une erreur est survenu ! ",
+        });})
     }
     const handleDecrypt = (data) => {
       const indice = data.ind
@@ -122,8 +223,19 @@ const AdminComponent = () => {
       console.log(typeof(share))
       console.log(uid.userMail)
       axios.post(`${process.env.REACT_APP_API_URL}/admin/decrypt`,{adminMail:uid.userMail,share,indice}).then(res => {
-        alert(res.data.message)
-      }).catch(err => console.log(err))
+        Swal.fire({
+          icon: res.data.valid ? "success" : "error",
+          color : "#fff",
+          background:"#33322e",
+          title: res.data.message,
+        });
+      }).catch(err => {
+        Swal.fire({
+          icon: "error",
+          color : "#fff",
+          background:"#33322e",
+          title: "Une erreur est survenu ! ",
+        });})
       
     }
     // Log out
@@ -133,7 +245,13 @@ const AdminComponent = () => {
           navigate("/")
           window.location.reload();
         }
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        Swal.fire({
+          icon: "error",
+          color : "#fff",
+          background:"#33322e",
+          title: "Une erreur est survenu ! ",
+        });})
     }
   
 

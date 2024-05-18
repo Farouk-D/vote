@@ -26,9 +26,9 @@ module.exports.createVote = async (req,res) => {
         const key = createKeys()
         const newVote = new VoteModel({clePub:key[0],delta:key[1],dateEnd})
         await newVote.save()
-        return res.json({message:"Vote crée"})
+        return res.json({valid:true,message:"Vote crée"})
     } else {
-        return res.json({message:"Un vote est déja en cours ! "})
+        return res.json({valid:false,message:"Un vote est déja en cours ! "})
     }
 }
 module.exports.deleteVote = async (req,res) => {
@@ -38,10 +38,10 @@ module.exports.deleteVote = async (req,res) => {
 
         if (resultVote) {
             await UserModel.updateMany({},{ $set: { userVoted: false }})
-            return res.json({message:"Le vote a bien été effacé et les utilisateurs peuvent re voter pour les prochains"})
+            return res.json({valid:true,message:"Le vote a bien été effacé et les utilisateurs peuvent re voter pour les prochains"})
         }
         else {
-            return res.json({message:"Aucun vote en cours"})
+            return res.json({valid:false,message:"Aucun vote en cours"})
         }
 
     } catch (error) {

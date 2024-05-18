@@ -4,11 +4,15 @@ const bigInt = require('big-integer');
 
 module.exports.decrypt = async(req,res) => {
     const {adminMail,share,indice} = req.body;
-    console.log("1ere ")
+    
     try {
         const admin = await DechiffrementModel.findOne({})
+        console.log(admin)
+        if (!admin) {
+            return res.json({valid:false,message: "Aucun Déchiffrement en cours !" });
+        }
         if (!admin.adminMail.includes(adminMail)) {
-            return res.json({message: "Vous avez déja dechiffré" });
+            return res.json({valid:false,message: "Vous avez déja dechiffré" });
         }
         const vote = await VoteModel.findOne({})
         let delta = bigInt(vote.get("delta"))
@@ -23,7 +27,7 @@ module.exports.decrypt = async(req,res) => {
         admin.adminMail = admin.adminMail.filter(e => e !== adminMail)
         await admin.save()
 
-        return res.json({message:"Déchiffrement effectué avec succès "})
+        return res.json({valid:true,message:"Déchiffrement effectué avec succès "})
     } catch(error) {
         console.log(error.toString())
         return res.json({ message: "Error" });
@@ -50,14 +54,14 @@ module.exports.startDecrypt = async (req,res) => {
                         { adminMail: ["admin1@com","admin2@com","admin3@com","admin4@com"],
                          decryptValue: sum}
                     ]);
-                    return res.json({message:"Dechiffrement lancé !!"})
+                    return res.json({valid:true,message:"Dechiffrement lancé !!"})
 
-                } else {return res.json({message:"Le déchiffrement est déja en cours !"})}
+                } else {return res.json({valid:false,message:"Le déchiffrement est déja en cours !"})}
             
-            } else {return res.json({message:"Limite de date de vote pas depassé"})}
+            } else {return res.json({valid:false,message:"Limite de date de vote pas depassé"})}
         
         } else {
-            return res.json({message:"Aucun vote en cours"})
+            return res.json({valid:false,message:"Aucun vote en cours"})
         }
     } catch (error) {
         console.error('Erreur lors du déchiffrement :', error);
@@ -121,6 +125,8 @@ module.exports.endDecrypt = async(req,res) => {
     try {
         const admin = await DechiffrementModel.findOne({})
         const vote = await VoteModel.findOne({})
+        if (!admin) return res.json({valid:false,message:"Aucun déchiffrement en cours!"})
+        if (!vote) return res.json({valid:false,message:"Aucun vote en cours!"})
         let delta = bigInt(vote.get("delta"))
         let n = bigInt(vote.get("clePub")[0])
         let indiceList = admin.get("indice")
@@ -130,7 +136,7 @@ module.exports.endDecrypt = async(req,res) => {
         let d = decrypt(decryptedList, muList, n, delta, theta)
         await DechiffrementModel.updateOne({},{ $set: { decryptValue: d.toString() }})
         
-        return res.json({message:"Calcul de d effectuÃ© "})
+        return res.json({valid:true,message:"Calcul de déchiffrement effectuée "})
     } catch(error) {
         console.log(error.toString())
         return res.json({ message: "Error" });
