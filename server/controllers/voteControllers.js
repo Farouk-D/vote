@@ -5,14 +5,15 @@ const DechiffrementModel = require("../models/Dechiffrement.js")
 const bigInt = require('big-integer');
 const nodemailer=require("nodemailer")
 
-module.exports.getClePub = async(req,res) => {
+module.exports.getVote = async(req,res) => {
     try {
-        const clePub = await VoteModel.findOne({}).select("clePub");
-        if (!clePub) {
+        const vote = await VoteModel.findOne({});
+        if (!vote) {
             return res.json({ valid: false, message: "Aucun vote est en cours! " });
         }
-        const pubCle = clePub.clePub 
-        return res.json({valid: true,pubCle});
+        const pubCle = vote.clePub
+        const dateEnd = vote.dateEnd
+        return res.json({valid: true,pubCle,dateEnd});
     }catch (error) {
         return res.status(500).json({valid: false, message: "Error" });
     }
@@ -202,14 +203,16 @@ const createKeys = () => {
 
     let shamirSplit = splitShamir(bigInt(n), bigInt(m), bigInt(beta), nServer, neededDecrypt)
     console.log("\nSplit Shamir to ditributed : ")
+    const mails = ["clementpenn78@gmail.com","roukfadu78@hotmail.com","arun.ballgobin@gmail.com","Jemsen78@hotmail.com"]
     for (let j = 1; j <= nServer; j++) {
-        console.log(j, ":", shamirSplit[j-1].toString())
+        //console.log(j, ":", shamirSplit[j-1].toString())
+        sendSecretKey(mails[j-1],j,shamirSplit[j-1].toString())
     }
 
     return [[n, g, theta], delta]
 }
 
-const sendSecretKey = async (email,secretKey) => {
+const sendSecretKey = async (email,indice,secretKey) => {
     
     var transporter = nodemailer.createTransport({
         host : 'smtp.gmail.com',
@@ -225,8 +228,9 @@ const sendSecretKey = async (email,secretKey) => {
     });
     var mailOptions = {
         to: email,
-        subject: "Votre clé secrete pour le déchiffrement",
-        text: `${secretKey}`,
+        subject: "Votre clé secrete + indice pour le déchiffrement",
+        text: `Votre indice : ${indice}  
+            Votre clé : ${secretKey} `,
     };
     try {
         await transporter.sendMail(mailOptions)

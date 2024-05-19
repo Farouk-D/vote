@@ -9,7 +9,7 @@ const router = express.Router()
 //router.get("/",verifyUser)
 router.use(verifyUser)
 
-router.get("/getClePub",voteControllers.getClePub)
+router.get("/getVote",voteControllers.getVote)
 router.post("/createVote",voteControllers.createVote)
 router.post("/testVote/:id",voteControllers.testVote)
 router.post("/postVote",voteControllers.postVote)
