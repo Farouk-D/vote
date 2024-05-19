@@ -10,6 +10,7 @@ const router = express.Router()
 router.use(verifyUser)
 
 router.get("/getVote",voteControllers.getVote)
+router.get("/getResult",voteControllers.getResult)
 router.post("/createVote",voteControllers.createVote)
 router.post("/testVote/:id",voteControllers.testVote)
 router.post("/postVote",voteControllers.postVote)

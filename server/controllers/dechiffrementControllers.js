@@ -7,7 +7,6 @@ module.exports.decrypt = async(req,res) => {
     
     try {
         const admin = await DechiffrementModel.findOne({})
-        console.log(admin)
         if (!admin) {
             return res.json({valid:false,message: "Aucun Déchiffrement en cours !" });
         }
@@ -126,6 +125,7 @@ module.exports.endDecrypt = async(req,res) => {
         const admin = await DechiffrementModel.findOne({})
         const vote = await VoteModel.findOne({})
         if (!admin) return res.json({valid:false,message:"Aucun déchiffrement en cours!"})
+        if (admin.decryptedShare.length !== 4) return res.json({valid:false,message:"Décryptage déja fini ou il manque des déchiffrage !"})
         if (!vote) return res.json({valid:false,message:"Aucun vote en cours!"})
         if (admin.adminMail.length !== 0) return res.json({valid:false,message:"Il faut faire tout les déchiffrement d'abord"})
         let delta = bigInt(vote.get("delta"))
@@ -135,7 +135,7 @@ module.exports.endDecrypt = async(req,res) => {
         let theta = bigInt(vote.get("clePub")[2])
         let muList = calculMu(indiceList, delta)
         let d = decrypt(decryptedList, muList, n, delta, theta)
-        await DechiffrementModel.updateOne({},{ $set: { decryptValue: d.toString() }})
+        await DechiffrementModel.updateOne({},{ $set: { decryptValue: d.toString(), decryptedShare: [] }})
         
         return res.json({valid:true,message:"Calcul de déchiffrement effectuée "})
     } catch(error) {

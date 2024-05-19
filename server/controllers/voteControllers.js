@@ -21,6 +21,30 @@ module.exports.getVote = async(req,res) => {
     
 }
 
+module.exports.getResult = async (req, res) => {
+    try {
+        const vote = await VoteModel.findOne({});
+        const decrypt = await DechiffrementModel.findOne({});
+        if (!vote || !decrypt) {
+            return res.json({ valid: false, message: "Aucun vote ou déchiffrement est en cours!" });
+        }
+        if (vote.votes.length === 0) {
+            return res.json({ valid: true, result:0 });
+        }
+        const decryptValue = parseInt(decrypt.decryptValue, 10);
+        if (isNaN(decryptValue)) {
+            return res.json({ valid: false, message: "Valeur de déchiffrement invalide!" });
+        }
+        console.log("Decrypt "+decryptValue)
+        console.log("Decrypt "+vote.votes.length)
+        const result = (decryptValue / vote.votes.length) * 100;
+        console.log(result)
+        return res.json({ valid: true, result });
+    } catch (error) {
+        return res.json({ valid: false, message: "Erreur" });
+    }
+};
+
 module.exports.createVote = async (req,res) => {
     const {dateEnd} = req.body;
     const votes = await VoteModel.findOne({});
