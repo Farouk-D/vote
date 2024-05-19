@@ -28,9 +28,11 @@ const Navbar = () => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   // Admin pannel
   const connectToAdmin = async () => {
     if (location.pathname !== "/admin"){
@@ -65,6 +67,7 @@ const Navbar = () => {
     // }}
   }
   }
+  
   const handleLogOut = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
       if (res.data.valid) {
@@ -81,58 +84,50 @@ const Navbar = () => {
     setNav(!nav);
   };
 
-  // Array containing navigation items
-  const navItems = [
-    { id: 1, text: 'Accueil' },
-    { id: 2, text: 'Comment ça marche ?' },
-  ];
 
   return (
     <div className='bg-zinc-950 flex justify-between items-center h-24 w-full px-4 text-white'>
       {/* Logo */}
-      <Link to="/" className="flex items-center ml-5">
-        <img src={`${process.env.PUBLIC_URL}/VoteLogo.jpg`} alt="Logo" className="h-20 mr-5 rounded-full" />
+      <Link to="/" className="flex items-center sm:ml-5">
+        <img src={`${process.env.PUBLIC_URL}/VoteLogo.jpg`} alt="Logo" className="h-20 sm:mr-5 rounded-full" />
       </Link>
 
-      {/* Desktop Navigation */}
+      {/* Bouton de Navigation */}
       <ul className='flex'>
-          <li className='p-4' >
-            <Link to="/" className='p-4 hover:bg-yellow-600 rounded-xl mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Accueil</Link>
-            <Link to="/Aide" className='p-4 hover:bg-yellow-600 rounded-xl mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Aide</Link>
+          <li className='md:p-4 py-4' >
+            <Link to="/" className='p-4 hover:bg-yellow-600 rounded-xl mr-2 md:mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Accueil</Link>
+            <Link to="/Aide" className='p-4 hover:bg-yellow-600 rounded-xl md:mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Aide</Link>
           </li>
         {auth ?
-        <div
-          className='px-4 mt-2 cursor-pointer  '
+        <div className='px-4 mt-2 cursor-pointe'>
+          <Button
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{
+              padding: 0, // Supprime le padding interne du bouton
+              display: 'flex', // Utilise le flexbox
+              justifyContent: 'center', // Centre l'icône horizontalement
+              alignItems: 'center', // Centre l'icône verticalement
+            }}
           >
-       <Button
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        sx={{
-          padding: 0, // Supprime le padding interne du bouton
-          display: 'flex', // Utilise le flexbox
-          justifyContent: 'center', // Centre l'icône horizontalement
-          alignItems: 'center', // Centre l'icône verticalement
-        }}
-      >
-        <FaUserCircle size={40} color="white" />
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        {uid && uid.userRole === "admin" && <MenuItem onClick={connectToAdmin}>Admin </MenuItem>}
-        <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-      </Menu> 
-      
-        </div> : <Link to="/login" className='p-4 hover:bg-yellow-600 rounded-xl mr-2 cursor-pointer duration-300 hover:text-black font-semibold'>Connexion</Link> }
+            <FaUserCircle size={40} color="white" />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            {uid && uid.userRole === "admin" && <MenuItem onClick={connectToAdmin}>Admin </MenuItem>}
+            <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+          </Menu> 
+       </div> : <Link to="/login" className='p-4 hover:bg-yellow-600 rounded-xl mr-2 cursor-pointer duration-300 hover:text-black font-semibold'>Connexion</Link> }
       </ul>
     </div>
   );
