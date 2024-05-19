@@ -6,8 +6,7 @@ import axios from 'axios';
 
 export default function Accueil() {
   const uid = useContext(UidContext);
-  console.log("In Accueil, setClePub is: ", typeof setClePub);
-  const navigate = useNavigate(); // Hook to navigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     axios({
@@ -16,8 +15,6 @@ export default function Accueil() {
       withCredentials: true,
     }).then(async (res) => {
       const result = localStorage.getItem("result")
-      console.log(typeof(result) + result )
-      console.log(res.data.valid + " "+ res.data.deployed )
       if(res.data.valid && res.data.deployed && result === "false") {
         localStorage.setItem("result","true")
         const Toast = Swal.mixin({
@@ -51,7 +48,6 @@ export default function Accueil() {
       withCredentials: true,
     }).then(async (res) => {
       if (res.data.valid && type === "Vote") {
-        //console.log(res.data.pubCle,new Date(res.data.dateEnd))
         navigate("/VoteBO",{ state: { clePub:res.data.pubCle,dateEnd:res.data.dateEnd } })
       }
       else if (res.data.valid && type === "Res"){
