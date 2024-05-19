@@ -148,7 +148,13 @@ module.exports.verifyAllDecrypt = async (req,res) => {
     if (decryptedStarted) {
         const decrypted = await DechiffrementModel.findOne({}).select("adminMail");
         if (decrypted.adminMail.length === 0) {
-            return res.json({ valid: true, message: "Tous les admins ont déchiffré ! " });
+            const vote = await VoteModel.findOne({})
+            if (!vote.deployed){
+                vote.deployed = true
+                await vote.save()
+                return res.json({ valid: true, message: "Résultat mis en ligne !!" });
+            }
+            return res.json({ valid: false, message: " Le résultat a déja été mis en ligne ! " });
         } else {
             return res.json({ valid: false, message: "Il manque un ou plusieurs admins qui n'ont pas dechiffré " });
         }

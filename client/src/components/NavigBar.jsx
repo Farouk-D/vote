@@ -34,34 +34,35 @@ const Navbar = () => {
   // Admin pannel
   const connectToAdmin = async () => {
     if (location.pathname !== "/admin"){
-      if (localStorage.getItem("admin")) {
-        navigate("/admin")
-      } else {
-      const { value: password } = await Swal.fire({
-      title: "Entrez votre Mot de passe admin",
-      input: "password",
-      color : "#fff",
-      inputPlaceholder: "****************",
-      background:"#33322e",
-      inputAttributes: {
-        autocapitalize: "off",
-        autocorrect: "off"
-      }
-      })
-    if (password) {
-      if (password === process.env.REACT_APP_PASSWORD_ADMIN){
-        localStorage.setItem("admin",true)
-        navigate("/admin")
-      } else {
-        Swal.fire({
-          icon: "error",
-          color : "#fff",
-          background:"#33322e",
-          title: "Mauvais mot de passe ! ",
-          text: "Veuillez Reessayer",
-        });
-      }
-    }}
+      navigate("/admin")
+    //   if (localStorage.getItem("admin")) {
+    //     navigate("/admin")
+    //   } else {
+    //   const { value: password } = await Swal.fire({
+    //   title: "Entrez votre Mot de passe admin",
+    //   input: "password",
+    //   color : "#fff",
+    //   inputPlaceholder: "****************",
+    //   background:"#33322e",
+    //   inputAttributes: {
+    //     autocapitalize: "off",
+    //     autocorrect: "off"
+    //   }
+    //   })
+    // if (password) {
+    //   if (password === process.env.REACT_APP_PASSWORD_ADMIN){
+    //     localStorage.setItem("admin",true)
+    //     navigate("/admin")
+    //   } else {
+    //     Swal.fire({
+    //       icon: "error",
+    //       color : "#fff",
+    //       background:"#33322e",
+    //       title: "Mauvais mot de passe ! ",
+    //       text: "Veuillez Reessayer",
+    //     });
+    //   }
+    // }}
   }
   }
   const handleLogOut = () => {

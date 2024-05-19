@@ -9,17 +9,30 @@ export default function Accueil() {
   console.log("In Accueil, setClePub is: ", typeof setClePub);
   const navigate = useNavigate(); // Hook to navigate
 
-  const checkVote = async () => {
+  const checkVote = async (type) => {
     if (uid) {
       await axios({
       method: "get",
       url:`${process.env.REACT_APP_API_URL}/vote/getVote`,
       withCredentials: true,
     }).then(async (res) => {
-      if (res.data.valid) {
-        console.log(res.data.pubCle,res.data.dateEnd)
+      if (res.data.valid && type === "Vote") {
+        //console.log(res.data.pubCle,new Date(res.data.dateEnd))
         navigate("/VoteBO",{ state: { clePub:res.data.pubCle,dateEnd:res.data.dateEnd } })
       }
+      else if (res.data.valid && type === "Res"){
+        if (res.data.deployed) {
+          navigate("/VoteResult")
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Résultat pas mis en ligne !',
+            background: "#00000a",
+            color: "#fff"
+          });
+        }
+      }
+
       else {
         Swal.fire({
           icon: 'error',
@@ -58,11 +71,15 @@ export default function Accueil() {
         </p>
       </div>
       <div className=" flex flex-col items-center">
-        <button  onClick ={checkVote}
+        <button  onClick ={() => checkVote("Vote")}
         className="mt-20 py-8 px-10 font-serif bg-gradient-to-br from-yellow-700 to-orange-300 hover:brightness-90 hover:scale-105 w-4/5 md:w-2/5 text-white text-5xl lg:text-6xl font-bold rounded-3xl transition duration-200 ease-in-out">
        
           VOTEZ ! 
           <br /> <p className="text-2xl">Vote / صوتوا / Votar</p>
+        </button>
+        <button  onClick ={() => checkVote("Res")}
+        className="mt-10 py-8 px-5 font-serif bg-gradient-to-br from-red-700 to-red-300 hover:brightness-90 hover:scale-105 w-4/5 md:w-2/5 text-white text-4xl lg:text-5xl font-bold rounded-3xl transition duration-200 ease-in-out">
+          RESULTAT!
         </button>
       </div>
     </div>

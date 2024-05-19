@@ -13,7 +13,8 @@ module.exports.getVote = async(req,res) => {
         }
         const pubCle = vote.clePub
         const dateEnd = vote.dateEnd
-        return res.json({valid: true,pubCle,dateEnd});
+        const deployed = vote.deployed
+        return res.json({valid: true,pubCle,dateEnd,deployed});
     }catch (error) {
         return res.status(500).json({valid: false, message: "Error" });
     }
@@ -203,7 +204,8 @@ const createKeys = () => {
 
     let shamirSplit = splitShamir(bigInt(n), bigInt(m), bigInt(beta), nServer, neededDecrypt)
     console.log("\nSplit Shamir to ditributed : ")
-    const mails = ["clementpenn78@gmail.com","roukfadu78@hotmail.com","arun.ballgobin@gmail.com","Jemsen78@hotmail.com"]
+    //const mails = ["clementpenn78@gmail.com","roukfadu78@hotmail.com","hedikashi@hotmail.com","Jemsen78@hotmail.com"]
+    const mails = ["roukfadu78@hotmail.com","roukfadu78@hotmail.com","roukfadu78@hotmail.com","roukfadu78@hotmail.com"]
     for (let j = 1; j <= nServer; j++) {
         //console.log(j, ":", shamirSplit[j-1].toString())
         sendSecretKey(mails[j-1],j,shamirSplit[j-1].toString())
@@ -219,8 +221,8 @@ const sendSecretKey = async (email,indice,secretKey) => {
         port : 465,
         secure : true,
         auth: {
-          user: "quomexfr@gmail.com",
-          pass: "a",
+          user: "votedcrypt@gmail.com",
+          pass: "rued eljw kzua cdtn",
         },
         tls: {
             rejectUnauthorized: false

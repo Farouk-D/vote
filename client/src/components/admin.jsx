@@ -105,6 +105,17 @@ const AdminComponent = () => {
             );
             return false;
           }
+          const selectedDateTime = new Date(`${inputDate}T${inputTime}`);
+          const currentDateTime = new Date();
+
+          if (selectedDateTime <= currentDateTime) {
+            Swal.showValidationMessage(
+              '<style>.swal2-validation-message { background-color: #33322e; color: #FD9E9E; padding: 10px; border-radius: 5px; }</style>' +
+              'La date et l\'heure doivent être ultérieures à la date et l\'heure actuelles'
+            );
+            return false;
+    }
+
           return { date: inputDate, time: inputTime };
         }
       });
