@@ -37,17 +37,17 @@ function App() {
   return (
     <UidContext.Provider value={uid}>
       <Router>
-        <div className="w-full min-h-screen overflow-x-auto bg-cover bg-center">
+        <div className="w-full min-h-screen bg-cover bg-center">
           <NavigBar/>
           <main >
             <Routes>/VoteResult
               <Route path="/inscription" element={<Register />}/>
               <Route path="/Login" element={<Login />}/>
-              <Route path="/verif" element={uid ? <ConfirmRegister /> : <Navigate to="/" />} />
+              <Route path="/verif" element={<ConfirmRegister />} />
               <Route path="/admin" element={uid ? <AdminPage /> : <Navigate to="/" />} />
               <Route path="/Aide" element={< Aide />} />
               <Route path="/VoteBO" element={uid ? <VoteBO /> : <Navigate to="/" /> }/>
-                <Route path="/VoteResult" element={<Result /> }/>
+              <Route path="/VoteResult" element={uid ? <Result />:<Navigate to="/" />}/>
               <Route path="/Choix" element={<AccueilVote />}/>
               <Route path="*" element={<h2 className='dark:text-[#0f0f0f] '>La page n'existe pas</h2>} />
               <Route path="/" element={ <Accueil/>} />
