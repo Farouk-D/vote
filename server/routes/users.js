@@ -11,7 +11,7 @@ router.post("/getUser", userController.getUser)
 router.get("/getUsers" ,[verifyUser,admin], userController.getUsers)
 router.post("/register", userController.register)
 router.post("/login", userController.login)
-router.get('/logout', userController.logout)
+router.get('/logout', verifyUser,userController.logout)
 router.delete("/deleteUser/:id",[verifyUser,admin],userController.deleteUser)
 
 
