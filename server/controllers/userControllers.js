@@ -5,6 +5,7 @@ const objID = require('mongoose').Types.ObjectId;
 
 module.exports.getUser = async(req,res) => { 
   const {userMail} = req.body;
+  
   try {
     // Permet de vérifier que l'ID existe bien dans notre BD 
     const user = await UserModel.findOne({userMail});
@@ -20,6 +21,7 @@ module.exports.getUser = async(req,res) => {
 
 module.exports.getUsers = async (req, res) => {
   const users = await UserModel.find({ userRole: { $ne: 'admin' } }).select('-password');
+  console.log(users)
   res.status(200).json(users);
 };
 
