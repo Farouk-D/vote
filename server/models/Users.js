@@ -16,10 +16,6 @@ const UserSchema = new mongoose.Schema ({
         type: Boolean,
         default:false,
     },
-    userSecret: {
-        type: String,
-        default:null,
-    },
     userRole: {
         type: String,
         required : true,

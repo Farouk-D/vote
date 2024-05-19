@@ -174,10 +174,6 @@ const AdminComponent = () => {
       
         
       }
-        // let currentDate = new Date();
-        // let dateEnd = new Date(currentDate.getTime() + 5 * 60000); 
-        // let formattedDateEnd = dateEnd.toISOString();
-        // console.log(formattedDateEnd)
         
       
 

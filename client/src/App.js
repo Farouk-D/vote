@@ -11,6 +11,7 @@ import Accueil from './pages/Accueil';
 import Aide from './pages/Aide';
 import AccueilVote from './pages/AccueilVote';
 import VoteBO from './pages/VoteBO';
+import Result from './components/Result';
 
 function App() {
   const [uid, setUid] = useState(null)
@@ -39,13 +40,14 @@ function App() {
         <div className="w-full min-h-screen bg-cover bg-center">
           <NavigBar/>
           <main >
-            <Routes>
+            <Routes>/VoteResult
               <Route path="/inscription" element={<Register />}/>
               <Route path="/Login" element={<Login />}/>
-              <Route path="/verif" element={ <ConfirmRegister />} />
+              <Route path="/verif" element={uid ? <ConfirmRegister /> : <Navigate to="/" />} />
               <Route path="/admin" element={uid ? <AdminPage /> : <Navigate to="/" />} />
               <Route path="/Aide" element={< Aide />} />
               <Route path="/VoteBO" element={uid ? <VoteBO /> : <Navigate to="/" /> }/>
+                <Route path="/VoteResult" element={<Result /> }/>
               <Route path="/Choix" element={<AccueilVote />}/>
               <Route path="*" element={<h2 className='dark:text-[#0f0f0f] '>La page n'existe pas</h2>} />
               <Route path="/" element={ <Accueil/>} />
