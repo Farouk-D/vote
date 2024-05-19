@@ -28,7 +28,7 @@ export default function Accueil() {
           },
         });
         resultToast.fire({
-          title: "Résultat disponible !!!",
+          title: "Résultat disponible !!",
         });
       } else if (res.data.valid) {
         const voteToast = Swal.mixin({
