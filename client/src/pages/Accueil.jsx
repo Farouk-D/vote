@@ -6,8 +6,7 @@ import axios from 'axios';
 
 export default function Accueil() {
   const uid = useContext(UidContext);
-  console.log("In Accueil, setClePub is: ", typeof setClePub);
-  const navigate = useNavigate(); // Hook to navigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     axios({
@@ -15,8 +14,9 @@ export default function Accueil() {
       url:`${process.env.REACT_APP_API_URL}/vote/getVote`,
       withCredentials: true,
     }).then(async (res) => {
-      if(res.data.valid && res.data.deployed && !localStorage.getItem("result")) {
-        localStorage.setItem("result",true)
+      const result = localStorage.getItem("result")
+      if(res.data.valid && res.data.deployed && result === "false") {
+        localStorage.setItem("result","true")
         const Toast = Swal.mixin({
           toast: true,
           position: "top",
@@ -32,8 +32,8 @@ export default function Accueil() {
         Toast.fire({
           title: "Résultat disponible !!!"
         });
-      } else {
-        localStorage.setItem("result",false)
+      } else if (!res.data.valid || !res.data.deployed){
+        localStorage.setItem("result","false")
       }
     }).catch((err) => console.log(err));
   
@@ -48,7 +48,6 @@ export default function Accueil() {
       withCredentials: true,
     }).then(async (res) => {
       if (res.data.valid && type === "Vote") {
-        //console.log(res.data.pubCle,new Date(res.data.dateEnd))
         navigate("/VoteBO",{ state: { clePub:res.data.pubCle,dateEnd:res.data.dateEnd } })
       }
       else if (res.data.valid && type === "Res"){
