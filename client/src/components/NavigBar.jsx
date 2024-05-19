@@ -128,7 +128,6 @@ const Navbar = () => {
         }}
       >
         {uid && uid.userRole === "admin" && <MenuItem onClick={connectToAdmin}>Admin </MenuItem>}
-        <MenuItem onClick={() => navigate("/vote")}>Voter</MenuItem>
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </Menu> 
       

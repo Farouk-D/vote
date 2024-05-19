@@ -50,22 +50,35 @@ const AdminComponent = () => {
     }, []);
 
     const handleDeleteVote = () => {
-      axios.delete(`${process.env.REACT_APP_API_URL}/vote/deleteVote`).then(res => {
-        Swal.fire({
-          icon: res.data.valid ? "success" : "error",
-          color : "#fff",
-          background:"#33322e",
-          title: res.data.message,
+      Swal.fire({
+        title: "Etes vous sur ?",
+        text: "Si vous supprimez le vote , on ne pourra plus revenir en arriere !",
+        icon: "warning",
+        color : "#fff",
+        background:"#33322e",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Supprimer"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`${process.env.REACT_APP_API_URL}/vote/deleteVote`).then(res => {
+            Swal.fire({
+              icon: res.data.valid ? "success" : "error",
+              color : "#fff",
+              background:"#33322e",
+              title: res.data.message,
+            });
+          }).catch(err => {
+            Swal.fire({
+              icon: "error",
+              color : "#fff",
+              background:"#33322e",
+              title: "Une erreur est survenu ! ",
+            });})
+          }
         });
-      }).catch(err => {
-        Swal.fire({
-          icon: "error",
-          color : "#fff",
-          background:"#33322e",
-          title: "Une erreur est survenu ! ",
-        });
-      })
-    }
+      }
     const handleCreateVote = async() => {
 
       const { value: dateTime } = await Swal.fire({
@@ -85,6 +98,13 @@ const AdminComponent = () => {
         preConfirm: () => {
           const inputDate = document.getElementById('swal-input-date').value;
           const inputTime = document.getElementById('swal-input-time').value;
+          if (!inputDate || !inputTime) {
+            Swal.showValidationMessage(
+              '<style>.swal2-validation-message { background-color: #33322e; color: #FD9E9E; padding: 10px; border-radius: 5px; }</style>' +
+              'Veuillez sélectionner une date et une heure'
+            );
+            return false;
+          }
           return { date: inputDate, time: inputTime };
         }
       });
@@ -203,17 +223,37 @@ const AdminComponent = () => {
         });})
     }
     const handleDeleteUser = (id) => {
-      axios.delete(`${process.env.REACT_APP_API_URL}/auth/deleteUser/${id}`).then(res => {
-        const filteredUsers = users.filter(user => user._id !== id)
-        setUsers(filteredUsers)
-        alert(res.data.message)
-      }).catch(err => {
-        Swal.fire({
-          icon: "error",
-          color : "#fff",
-          background:"#33322e",
-          title: "Une erreur est survenu ! ",
-        });})
+      Swal.fire({
+        title: "Etes vous sur ?",
+        text: "Si vous supprimez l'utilisateur, on ne pourra plus revenir en arriere !",
+        icon: "warning",
+        color : "#fff",
+        background:"#33322e",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Supprimer"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`${process.env.REACT_APP_API_URL}/auth/deleteUser/${id}`).then(res => {
+            const filteredUsers = users.filter(user => user._id !== id)
+            setUsers(filteredUsers)
+            Swal.fire({
+              icon: "success",
+              color : "#fff",
+              background:"#33322e",
+              title: "L'utilisateur a bien été supprimé ! ",
+            })
+          }).catch(err => {
+            Swal.fire({
+              icon: "error",
+              color : "#fff",
+              background:"#33322e",
+              title: "Une erreur est survenu ! ",
+            });})
+        }
+      });
+    
     }
     const handleDecrypt = (data) => {
       const indice = data.ind
@@ -257,7 +297,7 @@ const AdminComponent = () => {
 
 return  isAllowed && (
   <div className="bg-gray-100 min-h-screen flex">
-      <aside className="bg-zinc-950 w-2/5 xl:w-1/5 flex flex-col space-y-4 border-4 border-zinc-600">
+      <aside className="bg-zinc-950 w-2/5 xl:w-1/4 flex flex-col space-y-4 border-4 border-zinc-600">
         <button
           className="text-white  hover:bg-zinc-600 px-4 py-4 flex items-center"
           onClick={handleVerifyAllDecrypt}
