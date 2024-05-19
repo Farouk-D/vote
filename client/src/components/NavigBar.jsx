@@ -34,6 +34,9 @@ const Navbar = () => {
   // Admin pannel
   const connectToAdmin = async () => {
     if (location.pathname !== "/admin"){
+      if (localStorage.getItem("admin")) {
+        navigate("/admin")
+      } else {
       const { value: password } = await Swal.fire({
       title: "Entrez votre Mot de passe admin",
       input: "password",
@@ -44,9 +47,10 @@ const Navbar = () => {
         autocapitalize: "off",
         autocorrect: "off"
       }
-    });
+      })
     if (password) {
       if (password === process.env.REACT_APP_PASSWORD_ADMIN){
+        localStorage.setItem("admin",true)
         navigate("/admin")
       } else {
         Swal.fire({
@@ -57,13 +61,14 @@ const Navbar = () => {
           text: "Veuillez Reessayer",
         });
       }
-    }
+    }}
   }
   }
   const handleLogOut = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
       if (res.data.valid) {
         setAuth(false)
+        localStorage.removeItem('admin');
         navigate("/")
         window.location.reload()
       }
@@ -96,7 +101,7 @@ const Navbar = () => {
           </li>
         {auth ?
         <div
-          className='p-4 border-b rounded-xl hover:bg-yellow-600 duration-300 hover:text-black cursor-pointer border-gray-600'
+          className='px-4 mt-2 cursor-pointer  '
           >
        <Button
         id="basic-button"
@@ -104,8 +109,14 @@ const Navbar = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        sx={{
+          padding: 0, // Supprime le padding interne du bouton
+          display: 'flex', // Utilise le flexbox
+          justifyContent: 'center', // Centre l'icône horizontalement
+          alignItems: 'center', // Centre l'icône verticalement
+        }}
       >
-        <FaUserCircle/>
+        <FaUserCircle size={40} color="white" />
       </Button>
       <Menu
         id="basic-menu"

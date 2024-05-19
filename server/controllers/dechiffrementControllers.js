@@ -127,6 +127,7 @@ module.exports.endDecrypt = async(req,res) => {
         const vote = await VoteModel.findOne({})
         if (!admin) return res.json({valid:false,message:"Aucun déchiffrement en cours!"})
         if (!vote) return res.json({valid:false,message:"Aucun vote en cours!"})
+        if (admin.adminMail.length !== 0) return res.json({valid:false,message:"Il faut faire tout les déchiffrement d'abord"})
         let delta = bigInt(vote.get("delta"))
         let n = bigInt(vote.get("clePub")[0])
         let indiceList = admin.get("indice")

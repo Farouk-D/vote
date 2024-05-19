@@ -257,7 +257,7 @@ const AdminComponent = () => {
 
 return  isAllowed && (
   <div className="bg-gray-100 min-h-screen flex">
-      <aside className="bg-zinc-950 w-1/5 flex flex-col space-y-4 border-4 border-zinc-600">
+      <aside className="bg-zinc-950 w-2/5 xl:w-1/5 flex flex-col space-y-4 border-4 border-zinc-600">
         <button
           className="text-white  hover:bg-zinc-600 px-4 py-4 flex items-center"
           onClick={handleVerifyAllDecrypt}

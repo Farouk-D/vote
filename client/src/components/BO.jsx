@@ -129,7 +129,7 @@ const BO = () => {
               id="id" 
               name="id" 
               placeholder="Entrez votre id" 
-              className="block mt-2 text-2xl w-full p-2 text-center border text-white border-yellow-600 bg-gray-950 rounded-md" 
+              className="block mt-2 sm:mt-6 text-2xl w-full p-2 text-center border text-white border-yellow-600 bg-gray-950 rounded-md" 
               {...register("id", { required: true, maxLength: 30 })}
             />
             {errors.id && errors.id.type === "required" && (
@@ -137,7 +137,7 @@ const BO = () => {
             )}
             <button 
               type="submit" 
-              className="bg-black mt-2 w-full text-amber-600 text-2xl py-2 px-4 rounded-md"
+              className="bg-black mt-2 sm:mt-6 w-full text-amber-600 text-2xl py-2 px-4 rounded-md"
             >
               Soumettre le vote
             </button>
