@@ -18,33 +18,33 @@ export default function Accueil() {
         const resultToast = Swal.mixin({
           toast: true,
           position: "top",
-          background: "#585B03",
+          background: "#028A0F",
           color: "#fff",
           showConfirmButton: false,
-          timer: 10000,
+          timer: 5000,
           didOpen: (toast) => {
             toast.onmouseenter = Swal.stopTimer;
             toast.onmouseleave = Swal.resumeTimer;
           },
         });
         resultToast.fire({
-          title: "Résultat disponible !!",
+          title: "RÉSULTAT DISPONIBLE !!!",
         });
       } else if (res.data.valid) {
         const voteToast = Swal.mixin({
           toast: true,
           position: "top",
-          background: "#585B03",
+          background: "#028A0F",
           color: "#fff",
           showConfirmButton: false,
-          timer: 10000,
+          timer: 5000,
           didOpen: (toast) => {
             toast.onmouseenter = Swal.stopTimer;
             toast.onmouseleave = Swal.resumeTimer;
           },
         });
         voteToast.fire({
-          title: "Vote disponible !!!",
+          title: "VOTE DISPONIBLE !!!",
         });
       }})
     .catch((err) => console.log(err));
