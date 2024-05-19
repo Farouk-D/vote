@@ -67,7 +67,7 @@ const Navbar = () => {
     // }}
   }
   }
-  
+
   const handleLogOut = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`).then(res => {
       if (res.data.valid) {
@@ -95,8 +95,8 @@ const Navbar = () => {
       {/* Bouton de Navigation */}
       <ul className='flex'>
           <li className='md:p-4 py-4' >
-            <Link to="/" className='p-4 hover:bg-yellow-600 rounded-xl mr-2 md:mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Accueil</Link>
-            <Link to="/Aide" className='p-4 hover:bg-yellow-600 rounded-xl md:mx-2 cursor-pointer duration-300 hover:text-black font-semibold'>Aide</Link>
+            <Link to="/" className='p-4 hover:text-yellow-500 hover:text-lg rounded-xl mr-2 md:mx-2 cursor-pointer duration-300 font-semibold'>Accueil</Link>
+            <Link to="/Aide" className='p-4 hover:text-yellow-500 hover:text-lg rounded-xl md:mx-2 cursor-pointer duration-300 font-semibold'>Aide</Link>
           </li>
         {auth ?
         <div className='px-4 mt-2 cursor-pointe'>

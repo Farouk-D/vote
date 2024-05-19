@@ -37,7 +37,7 @@ function App() {
   return (
     <UidContext.Provider value={uid}>
       <Router>
-        <div className="w-full min-h-screen bg-cover bg-center">
+        <div className="w-full min-h-screen overflow-x-auto bg-cover bg-center">
           <NavigBar/>
           <main >
             <Routes>/VoteResult

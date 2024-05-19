@@ -40,7 +40,6 @@ export default function Accueil() {
   }, []);
 
 
-
   const checkVote = async (type) => {
     if (uid) {
       await axios({
@@ -85,8 +84,6 @@ export default function Accueil() {
   }
 }
     
-  
-
 
   return(
     <div className="flex flex-col min-h-screen" style={{ backgroundImage: 'url("https://www.pixel4k.com/wp-content/uploads/2020/12/triangle-solid-black-gold-4k_1608574481.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -104,8 +101,7 @@ export default function Accueil() {
       </div>
       <div className=" flex flex-col items-center">
         <button  onClick ={() => checkVote("Vote")}
-        className="mt-20 py-8 px-10 font-serif bg-gradient-to-br from-yellow-700 to-orange-300 hover:brightness-90 hover:scale-105 w-4/5 md:w-2/5 text-white text-5xl lg:text-6xl font-bold rounded-3xl transition duration-200 ease-in-out">
-       
+        className="mt-20 py-8 px-10 font-serif bg-gradient-to-br from-yellow-700 to-orange-300 hover:brightness-90 hover:scale-105 w-4/5 md:w-2/5 text-white text-5xl lg:text-6xl font-bold rounded-3xl transition duration-200 ease-in-out">       
           VOTEZ ! 
           <br /> <p className="text-2xl">Vote / صوتوا / Votar</p>
         </button>
