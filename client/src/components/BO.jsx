@@ -5,10 +5,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import bigInt from 'big-integer';
 import { UidContext } from "../AppContext";
 import Swal from 'sweetalert2'
+import Timer3 from "./countdown";
 
 const BO = () => {
   const location = useLocation()
-  const { clePub } = location.state || null;
+  const { clePub,dateEnd } = location.state || null;
   const [voteSelected,setVoteSelected] = useState("")
   const [isAllowed,setIsAllowed] = useState(false)
   const [value,setValue] = useState(null)
@@ -102,25 +103,22 @@ const BO = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
          style={{ backgroundImage: 'url("/Background.jpg")' }}>
       
-        <p className="hidden lg:flex justify-center mb-10 -mt-48 text-white text-center text-md md:text-3xl font-semibold bg-gray-950 w-4/5 md:w-1/2 rounded-xl border-2 py-1 px-2">
-          Votez pour votre favori au Ballon d'Or 2024
-        </p>
-
+        <div className="mt-12 sm:mt-0"><Timer3 dateEnd={dateEnd}/></div>
         
-      <div className={`flex items-center justify-center w-full`}>
+      <div className="flex flex-col sm:flex-row items-center justify-center w-full mt-20 ">
         <button onClick={() => {
         setVoteSelected("Jude")
         setValue("0")
       }}
-                className="mx-2">
-          <img src="/Jude.jpg" alt="Première Image" className={`${voteSelected === "Jude" ? "border-4 border-yellow-600 w-96 h-96" : "w-80 h-80"}  shadow-lg hover:shadow-xl transition-shadow duration-300`}/>
+                className="mx-2 my-2 sm:my-0">
+          <img src="/Jude.jpg" alt="Première Image" className={`transition-all duration-300 ease-in-out ${voteSelected === "Jude" ? "border-8 border-yellow-600 w-96 h-96 transform scale-100" : "w-80 h-80"} shadow-lg hover:shadow-xl`} />
         </button>
         <button onClick={() => {
         setVoteSelected("Diable")
         setValue("1")
       }}
                 className="mx-2">
-          <img src="Vini.jpg" alt="Deuxième Image" className={`${voteSelected === "Diable" ? "border-4 border-yellow-600 w-96 h-96" : "w-80 h-80"} shadow-lg hover:shadow-xl transition-shadow duration-300`} />
+          <img src="Vini.jpg" alt="Deuxième Image" className={`transition-all duration-300 ease-in-out ${voteSelected === "Diable" ? "border-8 border-yellow-600 w-96 h-96 transform scale-100" : "w-80 h-80"} shadow-lg hover:shadow-xl`}  />
         </button>
       </div>
       <div className="container mx-auto px-4">
@@ -131,7 +129,7 @@ const BO = () => {
               id="id" 
               name="id" 
               placeholder="Entrez votre id" 
-              className="block mt-10 text-2xl w-full mb-4 p-2 text-center border text-white border-yellow-600 bg-gray-950 rounded-md" 
+              className="block mt-2 text-2xl w-full p-2 text-center border text-white border-yellow-600 bg-gray-950 rounded-md" 
               {...register("id", { required: true, maxLength: 30 })}
             />
             {errors.id && errors.id.type === "required" && (
@@ -139,7 +137,7 @@ const BO = () => {
             )}
             <button 
               type="submit" 
-              className="bg-black text-amber-600 text-2xl mt-4 py-2 px-4 rounded-md"
+              className="bg-black mt-2 w-full text-amber-600 text-2xl py-2 px-4 rounded-md"
             >
               Soumettre le vote
             </button>

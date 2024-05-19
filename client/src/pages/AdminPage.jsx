@@ -4,7 +4,7 @@ import AdminComponent from "../components/admin";
 function AdminPage() {
   
   return  (
-    <div>
+    <div className="overflow-hidden">
       <AdminComponent/>
     </div>
   ) 

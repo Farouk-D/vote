@@ -13,12 +13,12 @@ export default function Accueil() {
     if (uid) {
       await axios({
       method: "get",
-      url:`${process.env.REACT_APP_API_URL}/vote/getClePub`,
+      url:`${process.env.REACT_APP_API_URL}/vote/getVote`,
       withCredentials: true,
     }).then(async (res) => {
       if (res.data.valid) {
-        console.log(res.data.pubCle)
-        navigate("/VoteBO",{ state: { clePub:res.data.pubCle } })
+        console.log(res.data.pubCle,res.data.dateEnd)
+        navigate("/VoteBO",{ state: { clePub:res.data.pubCle,dateEnd:res.data.dateEnd } })
       }
       else {
         Swal.fire({
