@@ -15,8 +15,11 @@ export default function Accueil() {
       url:`${process.env.REACT_APP_API_URL}/vote/getVote`,
       withCredentials: true,
     }).then(async (res) => {
-      if(res.data.valid && res.data.deployed && !localStorage.getItem("result")) {
-        localStorage.setItem("result",true)
+      const result = localStorage.getItem("result")
+      console.log(typeof(result) + result )
+      console.log(res.data.valid + " "+ res.data.deployed )
+      if(res.data.valid && res.data.deployed && result === "false") {
+        localStorage.setItem("result","true")
         const Toast = Swal.mixin({
           toast: true,
           position: "top",
@@ -32,8 +35,8 @@ export default function Accueil() {
         Toast.fire({
           title: "Résultat disponible !!!"
         });
-      } else {
-        localStorage.setItem("result",false)
+      } else if (!res.data.valid || !res.data.deployed){
+        localStorage.setItem("result","false")
       }
     }).catch((err) => console.log(err));
   
