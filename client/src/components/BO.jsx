@@ -137,8 +137,7 @@ const BO = () => {
             )}
             <button 
               type="submit" 
-              className="bg-black mt-2 sm:mt-6 w-full text-amber-600 text-2xl py-2 px-4 rounded-md"
-            >
+              className="bg-black hover:bg-amber-600 mt-2 sm:mt-6 w-full text-amber-600 border-2 hover:border-gray-950 border-amber-600 hover:text-black font-semibold text-2xl py-2 px-4 rounded-md">
               Soumettre le vote
             </button>
           </form>
