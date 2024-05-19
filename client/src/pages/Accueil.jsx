@@ -14,10 +14,8 @@ export default function Accueil() {
       url:`${process.env.REACT_APP_API_URL}/vote/getVote`,
       withCredentials: true,
     }).then(async (res) => {
-      const result = localStorage.getItem("result")
-      if(res.data.valid && res.data.deployed && result === "false") {
-        localStorage.setItem("result","true")
-        const Toast = Swal.mixin({
+      if (res.data.deployed) {
+        const resultToast = Swal.mixin({
           toast: true,
           position: "top",
           background: "#585B03",
@@ -27,15 +25,29 @@ export default function Accueil() {
           didOpen: (toast) => {
             toast.onmouseenter = Swal.stopTimer;
             toast.onmouseleave = Swal.resumeTimer;
-          }
+          },
         });
-        Toast.fire({
-          title: "Résultat disponible !!!"
+        resultToast.fire({
+          title: "Résultat disponible !!",
         });
-      } else if (!res.data.valid || !res.data.deployed){
-        localStorage.setItem("result","false")
-      }
-    }).catch((err) => console.log(err));
+      } else if (res.data.valid) {
+        const voteToast = Swal.mixin({
+          toast: true,
+          position: "top",
+          background: "#585B03",
+          color: "#fff",
+          showConfirmButton: false,
+          timer: 10000,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        voteToast.fire({
+          title: "Vote disponible !!!",
+        });
+      }})
+    .catch((err) => console.log(err));
   
   }, []);
 

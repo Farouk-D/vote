@@ -6,14 +6,12 @@ const express = require("express")
 
 const router = express.Router()
 
-//router.get("/",verifyUser)
-router.use(verifyUser)
 
 router.get("/getVote",voteControllers.getVote)
-router.get("/getResult",voteControllers.getResult)
-router.post("/createVote",voteControllers.createVote)
-router.post("/testVote/:id",voteControllers.testVote)
-router.post("/postVote",voteControllers.postVote)
-router.delete("/deleteVote",admin,voteControllers.deleteVote)
+router.get("/getResult",verifyUser,voteControllers.getResult)
+router.post("/createVote",[verifyUser,admin],voteControllers.createVote)
+router.post("/testVote/:id",verifyUser,voteControllers.testVote)
+router.post("/postVote",verifyUser,voteControllers.postVote)
+router.delete("/deleteVote",[verifyUser,admin],voteControllers.deleteVote)
 
 module.exports=router;
