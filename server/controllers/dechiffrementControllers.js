@@ -50,7 +50,7 @@ module.exports.startDecrypt = async (req,res) => {
                     }
                     // Initialisation dechiffrement
                     await DechiffrementModel.create([
-                        { adminMail: ["admin1@com","admin2@com","admin3@com","admin4@com"],
+                        { adminMail: [process.env.ADMIN_1,process.env.ADMIN_2,process.env.ADMIN_3,process.env.ADMIN_4],
                          decryptValue: sum}
                     ]);
                     return res.json({valid:true,message:"Dechiffrement lancé !!"})
