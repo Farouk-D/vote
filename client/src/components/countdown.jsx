@@ -55,7 +55,7 @@ const Timer3 = ({ dateEnd }) => {
       <div className="flex flex-col items-center justify-center w-full h-full gap-8 sm:gap-16">
         <div className="flex justify-center gap-4 sm:gap-8">
           <div className="flex flex-col relative">
-            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-lg">
+            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-t-lg">
               <div className="relative h-2.5 w-2.5 sm:h-3 sm:w-3 !-left-[6px] rounded-full bg-transparent "></div>
               <span className={`lg:text-7xl sm:text-6xl text-3xl font-semibold ${timeOver ? "text-red-600":"text-yellow-600"} `}>
                 {countDownTime.days}
@@ -67,7 +67,7 @@ const Timer3 = ({ dateEnd }) => {
             </span>
           </div>
           <div className="flex flex-col relative">
-            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-lg">
+            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-t-lg">
               <div className="relative h-2.5 w-2.5 sm:h-3 sm:w-3 !-left-[6px] rounded-full bg-transparent "></div>
               <span className={`lg:text-7xl sm:text-6xl text-3xl font-semibold ${timeOver ? "text-red-600":"text-yellow-600"} `}>
                 {countDownTime.hours}
@@ -79,7 +79,7 @@ const Timer3 = ({ dateEnd }) => {
             </span>
           </div>
           <div className="flex flex-col relative">
-            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-lg">
+            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-t-lg">
               <div className="relative h-2.5 w-2.5 sm:h-3 sm:w-3 !-left-[6px] rounded-full bg-transparent "></div>
               <span className={`lg:text-7xl sm:text-6xl text-3xl font-semibold ${timeOver ? "text-red-600":"text-yellow-600"} `}>
                 {countDownTime.minutes}
@@ -91,9 +91,9 @@ const Timer3 = ({ dateEnd }) => {
             </span>
           </div>
           <div className="flex flex-col relative">
-            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-lg">
-              <div className="relative h-2.5 w-2.5 sm:h-3 sm:w-3 !-left-[6px] rounded-full bg-transparent "></div>
-              <span className={`lg:text-7xl sm:text-6xl text-3xl font-semibold ${timeOver ? "bg-red-600 text-[#161618]":"text-yellow-600"} `}>
+            <div className="h-16 w-16 sm:w-32 sm:h-32 lg:w-30 lg:h-30 flex justify-between items-center bg-[#161618] rounded-t-lg">
+              <div className="relative h-2.5 w-2.5 sm:h-3 sm:w-3 !-left-[6px] rounded-t-full bg-transparent "></div>
+              <span className={`lg:text-7xl sm:text-6xl text-3xl font-semibold ${timeOver ? "bg-red-600 text-[#161618]":"bg-yellow-600 text-[#161618]"} `}>
                 {countDownTime.seconds}
               </span>
               <div className="relative h-2.5 w-2.5 sm:h-3 sm:w-3 -right-[6px] rounded-full bg-transparent "></div>
